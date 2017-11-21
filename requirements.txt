@@ -1,0 +1,5 @@
+fitsio==0.9.11
+numpy==1.13.3
+PyQt5==5.9.1
+pyqtgraph==0.10.0
+sip==4.19.5
