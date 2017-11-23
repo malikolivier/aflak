@@ -6,6 +6,7 @@ Support Python3.
 
     virtualenv -p python3 venv
     . ./venv/bin/activate
+    pip install -r requirements.txt
 
 # Open a FITS file
 
