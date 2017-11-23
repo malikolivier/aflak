@@ -4,6 +4,6 @@ Support Python3.
 
 # Setup
 
-    virtualenv -p python3.6 venv
+    virtualenv -p python3 venv
     . ./venv/bin/activate
 
