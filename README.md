@@ -32,3 +32,4 @@ After some fiddling you should be able to get a window like below:
 - Include GUI way of loading new images
 - Set waveform's X-axis to appropriate units
 - Improve ROI drawing
+- Histogram should use logarithm scale by default
