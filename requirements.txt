@@ -1,5 +1,7 @@
-fitsio==0.9.11
+astropy==2.0.2
 numpy==1.13.3
+py==1.5.2
 PyQt5==5.9.1
 pyqtgraph==0.10.0
+pytest==3.2.5
 sip==4.19.5
