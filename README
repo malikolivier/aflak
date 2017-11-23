@@ -13,6 +13,10 @@ Support Python3.
 
 The provided FITS file is required to have an extension with the 'FLUX' name.
 
+After some fiddling you should be able to get a window like below:
+
+![Screen capture of the running GUI application](images/2017-11-13-screenshot.jpg?raw=true)
+
 
 # To see a fits file header
 
