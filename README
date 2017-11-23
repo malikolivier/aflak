@@ -7,3 +7,7 @@ Support Python3.
     virtualenv -p python3 venv
     . ./venv/bin/activate
 
+
+# To see a fits file header
+
+    fold -w 80 foo.fits | less
