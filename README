@@ -25,3 +25,5 @@ The provided FITS file is required to have an extension with the 'FLUX' name.
 - Show arbitrary sums over spectral data (currently only show one frame)
 - Benchmark / Test with several fits files
 - Include GUI way of loading new images
+- Set waveform's X-axis to appropriate units
+- Improve ROI drawing
