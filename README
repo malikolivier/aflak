@@ -7,6 +7,12 @@ Support Python3.
     virtualenv -p python3 venv
     . ./venv/bin/activate
 
+# Open a FITS file
+
+    python aflak.py my-fits-file.fits
+
+The provided FITS file is required to have an extension with the 'FLUX' name.
+
 
 # To see a fits file header
 
