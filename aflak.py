@@ -24,6 +24,7 @@ WINDOWS_TITLE = args.fits
 win.setWindowTitle(WINDOWS_TITLE)
 
 flux = fits.flux()
-imv.setImage(flux)
+wave = fits.wave()
+imv.setImage(flux, xvals=wave)
 
 QtGui.QApplication.instance().exec_()

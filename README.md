@@ -12,7 +12,9 @@ Support Python3.
 
     python aflak.py my-fits-file.fits
 
-The provided FITS file is required to have an extension with the 'FLUX' name.
+The provided FITS file is required to have the following extensions:
+ - 'FLUX': 3D data containing 2D luminosity component for each wavelength value
+ - 'WAVE': 1D data containing value of each target wavelength
 
 After some fiddling you should be able to get a window like below:
 
@@ -30,6 +32,5 @@ After some fiddling you should be able to get a window like below:
 - Show arbitrary sums over spectral data (currently only show one frame)
 - Benchmark / Test with several fits files
 - Include GUI way of loading new images
-- Set waveform's X-axis to appropriate units
 - Improve ROI drawing
 - Histogram should use logarithm scale by default
