@@ -15,7 +15,7 @@ fits = FITS(args.fits)
 
 app = QtGui.QApplication([])
 
-## Create window with ImageView widget
+# Create window with ImageView widget
 win = QtGui.QMainWindow()
 imv = pg.ImageView()
 win.setCentralWidget(imv)
