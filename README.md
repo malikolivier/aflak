@@ -1,3 +1,7 @@
+# aflak - Advanced Framework for Learning Astrophysical Knowledge
+
+![Build status](https://api.travis-ci.org/malikolivier/aflak.svg?branch=master)
+
 # Environment
 
 Support Python3.
