@@ -32,7 +32,6 @@ After some fiddling you should be able to get a window like below:
 # TODO
 
 - Distribute through PyPI
-- Include CI / code checking tools
 - Show arbitrary sums over spectral data (currently only show one frame)
 - Benchmark / Test with several fits files
 - Include GUI way of loading new images
