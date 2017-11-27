@@ -1,7 +1,7 @@
 import argparse
 
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui
+from pyqtgraph.Qt import QtGui, QtWidgets
 
 from fits import FITS
 
@@ -17,6 +17,17 @@ app = QtGui.QApplication([])
 
 # Create window with ImageView widget
 win = QtGui.QMainWindow()
+
+# Add menu bar to window
+exitAction = QtGui.QAction('&Exit', win)
+exitAction.setShortcut('Ctrl+Q')
+exitAction.triggered.connect(QtWidgets.qApp.quit)
+
+menubar = win.menuBar()
+fileMenu = menubar.addMenu('&File')
+fileMenu.addAction(exitAction)
+
+
 imv = pg.ImageView()
 win.setCentralWidget(imv)
 win.show()
