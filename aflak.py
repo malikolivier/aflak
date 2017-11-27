@@ -1,7 +1,7 @@
 import argparse
 
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtGui
 
 from fits import FITS
 
