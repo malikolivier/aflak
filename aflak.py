@@ -1,7 +1,7 @@
 import argparse
 
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtGui, QtWidgets
 
 from fits import FITS
 
@@ -15,8 +15,19 @@ fits = FITS(args.fits)
 
 app = QtGui.QApplication([])
 
-## Create window with ImageView widget
+# Create window with ImageView widget
 win = QtGui.QMainWindow()
+
+# Add menu bar to window
+exitAction = QtGui.QAction('&Exit', win)
+exitAction.setShortcut('Ctrl+Q')
+exitAction.triggered.connect(QtWidgets.qApp.quit)
+
+menubar = win.menuBar()
+fileMenu = menubar.addMenu('&File')
+fileMenu.addAction(exitAction)
+
+
 imv = pg.ImageView()
 win.setCentralWidget(imv)
 win.show()
@@ -24,6 +35,7 @@ WINDOWS_TITLE = args.fits
 win.setWindowTitle(WINDOWS_TITLE)
 
 flux = fits.flux()
-imv.setImage(flux)
+wave = fits.wave()
+imv.setImage(flux, xvals=wave)
 
 QtGui.QApplication.instance().exec_()
