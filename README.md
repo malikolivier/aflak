@@ -37,3 +37,7 @@ After some fiddling you should be able to get a window like below:
 - Include GUI way of loading new images
 - Improve ROI drawing
 - Histogram should use logarithm scale by default
+- Include GUI way of showing a fits header
+- Set a label on the waveform's Y-axis (flux density [1E-17 erg/s/cm^2/Ang])
+- Set a label on the histogram's Y-axis (flux [1E-17 erg/s/cm^2])
+- Add a compass showing North and East directions and a scale bar in the unit of arcsec on the image
