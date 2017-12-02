@@ -47,7 +47,6 @@ TODO
 -  Distribute through PyPI
 -  Show arbitrary sums over spectral data (currently only show one frame)
 -  Benchmark / Test with several fits files
--  Include GUI way of loading new images
 -  Improve ROI drawing
 -  Histogram should use logarithm scale by default
 -  Include GUI way of showing a fits header
