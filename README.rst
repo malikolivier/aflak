@@ -45,7 +45,6 @@ To see a fits file header
 TODO
 ====
 
--  Distribute through PyPI
 -  Show arbitrary sums over spectral data (currently only show one frame)
 -  Benchmark / Test with several fits files
 -  Improve ROI drawing
