@@ -1,7 +1,6 @@
-import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui, QtWidgets
 
-import fits
+import viewer
 
 
 class MainWindow:
@@ -17,13 +16,10 @@ class MainWindow:
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(exitAction)
 
-        self._imv = pg.ImageView()
-        self.win.setCentralWidget(self._imv)
+        self.viewer = viewer.AstroImageViewer()
+        self.win.setCentralWidget(self.viewer.imv)
         self.win.show()
 
     def set_fits_file(self, file_path):
         self.win.setWindowTitle(file_path)
-        my_fits = fits.FITS(file_path)
-        flux = my_fits.flux()
-        wave = my_fits.wave()
-        self._imv.setImage(flux, xvals=wave)
+        self.viewer.set_fits_file(file_path)
