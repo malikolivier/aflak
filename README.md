@@ -14,7 +14,7 @@ Support Python3.
 
 # Open a FITS file
 
-    python aflak.py my-fits-file.fits
+    python aflak my-fits-file.fits
 
 The provided FITS file is required to have the following extensions:
  - 'FLUX': 3D data containing 2D luminosity component for each wavelength value
