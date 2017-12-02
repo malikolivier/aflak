@@ -26,6 +26,7 @@ Open a FITS file
     python aflak my-fits-file.fits
 
 The provided FITS file is required to have the following extensions:
+
 - 'FLUX': 3D data containing 2D luminosity component for each wavelength value
 - 'WAVE': 1D data containing value of each target wavelength
 
