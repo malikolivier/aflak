@@ -7,4 +7,4 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - git ls-files *.py | xargs pycodestyle
+  - git ls-files | grep .py$ | xargs pycodestyle
