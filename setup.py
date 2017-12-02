@@ -9,6 +9,11 @@ setup(name='aflak',
       url='https://github.com/malikolivier/aflak',
       license='GPLv3',
       packages=['aflak'],
+      entry_points={
+          'console_scripts': [
+              'aflak = aflak.__main__:_main',
+          ]
+      },
       install_requires=[
           'astropy',
           'pyqtgraph',
