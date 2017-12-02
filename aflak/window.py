@@ -1,6 +1,6 @@
 from pyqtgraph.Qt import QtGui, QtWidgets
 
-import viewer
+import aflak.viewer
 
 
 class MainWindow:
@@ -21,7 +21,7 @@ class MainWindow:
         fileMenu.addAction(openAction)
         fileMenu.addAction(exitAction)
 
-        self.viewer = viewer.AstroImageViewer()
+        self.viewer = aflak.viewer.AstroImageViewer()
         self.win.setCentralWidget(self.viewer.imv)
         self.win.show()
 
