@@ -14,7 +14,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.actionOpen.triggered.connect(self._open_file)
 
         self.viewer = AstroImageViewer()
-        self.setCentralWidget(self.viewer.imv)
+        self.setCentralWidget(self.viewer)
         self.show()
 
     def set_fits_file(self, file_path):

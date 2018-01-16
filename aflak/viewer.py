@@ -3,12 +3,12 @@ import pyqtgraph as pg
 import aflak.fits
 
 
-class AstroImageViewer:
+class AstroImageViewer(pg.ImageView):
     def __init__(self):
-        self.imv = pg.ImageView()
+        pg.ImageView.__init__(self)
 
     def set_fits_file(self, file_path):
         my_fits = aflak.fits.FITS(file_path)
         flux = my_fits.flux()
         wave = my_fits.wave()
-        self.imv.setImage(flux, xvals=wave)
+        self.setImage(flux, xvals=wave)
