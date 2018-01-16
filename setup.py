@@ -11,7 +11,7 @@ setup(name='aflak',
       packages=['aflak'],
       entry_points={
           'console_scripts': [
-              'aflak = aflak.__main__:_main',
+              'aflak = aflak.aflak:_main',
           ]
       },
       install_requires=[

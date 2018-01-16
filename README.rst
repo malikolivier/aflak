@@ -23,7 +23,7 @@ Open a FITS file
 
 ::
 
-    python aflak my-fits-file.fits
+    ./run my-fits-file.fits
 
 The provided FITS file is required to have the following extensions:
 
