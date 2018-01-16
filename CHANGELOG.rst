@@ -1,3 +1,9 @@
+v0.0.2
+======
+
+Fix: Use logarithmic scale on brightness histograms
+
+
 v0.0.1
 ======
 
