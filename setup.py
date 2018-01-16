@@ -1,9 +1,26 @@
+import io
+import re
+from os.path import dirname
+from os.path import join
+
 from setuptools import setup
+
+
+def read(*names, **kwargs):
+    return io.open(
+        join(dirname(__file__), *names),
+        encoding=kwargs.get('encoding', 'utf8')
+    ).read()
 
 
 setup(name='aflak',
       version='0.0.2',
       description='Advanced Framework for Learning Astrophysical Knowledge',
+      long_description='%s\n%s' % (
+        re.compile('^.. start-badges.*^.. end-badges',
+                   re.M | re.S).sub('',  read('README.rst')),
+        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+      ),
       author='Malik Olivier Boussejra',
       author_email='malik@boussejra.com',
       url='https://github.com/malikolivier/aflak',
