@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Aflak</string>
   </property>
-  <widget class="AstroImageViewer" name="astroImageViewer"/>
+  <widget class="AstroImageView" name="astroImageView"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -51,9 +51,9 @@
    <header>pyqtgraph.ImageView</header>
   </customwidget>
   <customwidget>
-   <class>AstroImageViewer</class>
+   <class>AstroImageView</class>
    <extends>ImageView</extends>
-   <header>.viewer</header>
+   <header>.AstroImageView</header>
   </customwidget>
  </customwidgets>
  <resources/>

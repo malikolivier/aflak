@@ -12,8 +12,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
-        self.astroImageViewer = AstroImageViewer(MainWindow)
-        self.astroImageViewer.setObjectName("astroImageViewer")
+        self.astroImageView = AstroImageView(MainWindow)
+        self.astroImageView.setObjectName("astroImageView")
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 34))
         self.menubar.setObjectName("menubar")
@@ -41,4 +41,4 @@ class Ui_MainWindow(object):
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
 
-from .viewer import AstroImageViewer
+from .AstroImageView import AstroImageView

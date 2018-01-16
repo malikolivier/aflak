@@ -3,7 +3,7 @@ import pyqtgraph as pg
 import aflak.fits
 
 
-class AstroImageViewer(pg.ImageView):
+class AstroImageView(pg.ImageView):
     def __init__(self, *args, **kwargs):
         pg.ImageView.__init__(self, *args, **kwargs)
 
