@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='aflak',
-      version='0.0.1',
+      version='0.0.2',
       description='Advanced Framework for Learning Astrophysical Knowledge',
       author='Malik Olivier Boussejra',
       author_email='malik@boussejra.com',
