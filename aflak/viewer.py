@@ -4,8 +4,8 @@ import aflak.fits
 
 
 class AstroImageViewer(pg.ImageView):
-    def __init__(self):
-        pg.ImageView.__init__(self)
+    def __init__(self, *args, **kwargs):
+        pg.ImageView.__init__(self, *args, **kwargs)
 
     def set_fits_file(self, file_path):
         my_fits = aflak.fits.FITS(file_path)

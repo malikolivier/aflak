@@ -9,17 +9,16 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setCentralWidget(self.ui.astroImageViewer)
 
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
 
-        self.viewer = AstroImageViewer()
-        self.setCentralWidget(self.viewer)
         self.show()
 
     def set_fits_file(self, file_path):
         self.setWindowTitle(file_path)
-        self.viewer.set_fits_file(file_path)
+        self.ui.astroImageViewer.set_fits_file(file_path)
 
     def _open_file(self):
         name, _file_type = QtGui.QFileDialog.getOpenFileName(self,
