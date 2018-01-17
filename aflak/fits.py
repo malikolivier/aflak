@@ -12,3 +12,10 @@ class FITS:
 
     def flux(self):
         return self.hdulist['FLUX'].data
+
+    def flux_unit(self):
+        return self.hdulist['FLUX'].header['BUNIT']
+
+    def summed_flux_unit(self):
+        flux_unit = self.flux_unit()
+        return flux_unit.replace("/Ang", "")
