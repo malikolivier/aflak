@@ -10,7 +10,9 @@ before_install:
   - lsb_release -a
 
 install:
+  - make data/manga-7443-12703-LINCUBE.fits
   - pip install -r requirements.txt
 
 script:
   - make pep8
+  - pytest
