@@ -17,4 +17,5 @@ def main():
     if args.fits is not None:
         main.set_fits_file(args.fits)
 
+    main.show()
     return QtGui.QApplication.instance().exec_()

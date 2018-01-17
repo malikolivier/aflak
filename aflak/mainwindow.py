@@ -14,8 +14,6 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
 
-        self.show()
-
     def set_fits_file(self, file_path):
         self.setWindowTitle(file_path)
         self.ui.astroImageView.set_fits_file(file_path)
