@@ -12,6 +12,7 @@ before_install:
 install:
   - make data/manga-7443-12703-LINCUBE.fits
   - pip install -r requirements.txt
+  - python setup.py install
 
 script:
   - make pep8
