@@ -36,6 +36,16 @@ After some fiddling you should be able to get a window like below:
 .. figure:: images/2017-11-13-screenshot.jpg?raw=true
    :alt: Screen capture of the running GUI application
 
+Get sample FITS files
+=====================
+
+The Makefile contains a few recipes to get sample fits files.
+Run make as below:
+
+::
+
+    make data/manga-7443-12703-LINCUBE.fits
+
 To see a fits file header
 =========================
 
