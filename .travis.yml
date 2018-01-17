@@ -3,6 +3,12 @@ language: python
 python:
   - 3.6
 
+before_install:
+  - python --version
+  - pip --version
+  - uname -a
+  - lsb_release -a
+
 install:
   - pip install -r requirements.txt
 
