@@ -1,3 +1,14 @@
+v0.0.3
+======
+
+Fix: Run aflak as module (with `python -m aflak`)
+
+New:
+
+- Include some unit tests
+- Include units in waveform axes, read from loaded FITS files
+
+
 v0.0.2
 ======
 

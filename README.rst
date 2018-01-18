@@ -60,7 +60,6 @@ TODO
 -  Benchmark / Test with several fits files
 -  Improve ROI drawing
 -  Include GUI way of showing a fits header
--  Set a label on the waveform's Y-axis (flux density [1E-17 erg/s/cm^2/Ang])
 -  Set a label on the histogram's Y-axis (flux [1E-17 erg/s/cm^2])
 -  Add a compass showing North and East directions and a scale bar in the unit
    of arcsec on the image
