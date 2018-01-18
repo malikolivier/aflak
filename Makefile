@@ -5,12 +5,14 @@
 pep8:
 	git ls-files | grep .py$ | grep -v _ui.py$ | xargs pycodestyle
 
+# Generate UI source files
 aflak/mainwindow_ui.py: aflak/mainwindow.ui
 	pyuic5 $< > $@
 
 aflak/AstroImageView_ui.py: aflak/AstroImageViewTemplate.ui
 	pyuic5 $< > $@
 
+# Download test samples from the MaNGA project
 data/manga-7443-12703-LINCUBE.fits:
 	wget -O $@.gz \
 	     https://data.sdss.org/sas/dr14/manga/spectro/redux/v2_1_2/7443/stack/manga-7443-12703-LINCUBE.fits.gz
