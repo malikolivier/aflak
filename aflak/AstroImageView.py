@@ -13,12 +13,13 @@ from .AstroImageView_ui import Ui_Form
 class AstroImageView(pg.ImageView):
     """
     Extends ImageView class.
-    Replace default HistogramLUTWidget with our AstroHistogramLUTWidget.
+     - Replace default HistogramLUTWidget with our AstroHistogramLUTWidget.
+     - Replace PlotWidget for roiPlot (defined inside UI class) by
+       AstroWaveFormPlotWidget
     """
     def __init__(self, parent=None, name="ImageView", view=None,
                  imageItem=None, *args):
         QtGui.QWidget.__init__(self, parent, *args)
-        self.fitsFile = None
         self.levelMax = 4096
         self.levelMin = 0
         self.name = name
@@ -116,16 +117,12 @@ class AstroImageView(pg.ImageView):
         self.roiClicked()
 
     def set_fits_file(self, file_path):
-        self.fitsFile = aflak.fits.FITS(file_path)
-        flux = self.fitsFile.flux()
-        wave = self.fitsFile.wave()
+        fitsFile = aflak.fits.FITS(file_path)
+        flux = fitsFile.flux()
+        wave = fitsFile.wave()
         self.setImage(flux, xvals=wave)
-        self.ui.roiPlot.setLabel('bottom', text='Wavelength', units='Å')
+        self.ui.roiPlot.setFitsFile(fitsFile)
 
     def roiClicked(self):
         super().roiClicked()
-        if self.ui.roiBtn.isChecked():
-            unit = self.fitsFile.summed_flux_unit()
-            self.ui.roiPlot.setLabel('left', text='Flux ({})'.format(unit))
-        else:
-            self.ui.roiPlot.showLabel('left', show=False)
+        self.ui.roiPlot.updateAstroDisplay(show=self.ui.roiBtn.isChecked())

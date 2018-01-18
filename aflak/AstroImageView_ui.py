@@ -48,7 +48,7 @@ class Ui_Form(object):
         self.menuBtn.setSizePolicy(sizePolicy)
         self.menuBtn.setObjectName("menuBtn")
         self.gridLayout.addWidget(self.menuBtn, 1, 2, 1, 1)
-        self.roiPlot = PlotWidget(self.splitter)
+        self.roiPlot = AstroWaveFormPlotWidget(self.splitter)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -150,5 +150,5 @@ class Ui_Form(object):
         self.normFrameCheck.setText(_translate("Form", "Frame"))
 
 from .AstroHistogramLUTWidget import AstroHistogramLUTWidget
+from .AstroWaveFormPlotWidget import AstroWaveFormPlotWidget
 from pyqtgraph.widgets.GraphicsView import GraphicsView
-from pyqtgraph.widgets.PlotWidget import PlotWidget
