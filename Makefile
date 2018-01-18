@@ -1,6 +1,6 @@
 # Generate UI files
 
-.PHONY: pep8
+.PHONY: pep8 release install upload
 
 pep8:
 	git ls-files | grep .py$ | grep -v _ui.py$ | xargs pycodestyle
@@ -25,3 +25,16 @@ data/manga-8082-12704-LINCUBE.fits:
 	wget -O $@.gz \
 	    https://data.sdss.org/sas/dr14/manga/spectro/redux/v2_1_2/8082/stack/manga-8082-12704-LINCUBE.fits.gz
 	gzip -d $@.gz
+
+# Make a release build
+release:
+	rm -rf dist build */*.egg-info *.egg-info
+	python setup.py sdist
+
+# Install release locally
+install: release
+	python setup.py install
+
+# Push release to PyPI
+upload: release
+	twine upload dist/*
