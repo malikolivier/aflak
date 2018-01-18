@@ -14,7 +14,7 @@ def read(*names, **kwargs):
 
 
 setup(name='aflak',
-      version='0.0.2',
+      version='0.0.3',
       description='Advanced Framework for Learning Astrophysical Knowledge',
       long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges',
