@@ -18,6 +18,7 @@ class AstroImageView(pg.ImageView):
     def __init__(self, parent=None, name="ImageView", view=None,
                  imageItem=None, *args):
         QtGui.QWidget.__init__(self, parent, *args)
+        self.fitsFile = None
         self.levelMax = 4096
         self.levelMin = 0
         self.name = name
@@ -115,7 +116,16 @@ class AstroImageView(pg.ImageView):
         self.roiClicked()
 
     def set_fits_file(self, file_path):
-        my_fits = aflak.fits.FITS(file_path)
-        flux = my_fits.flux()
-        wave = my_fits.wave()
+        self.fitsFile = aflak.fits.FITS(file_path)
+        flux = self.fitsFile.flux()
+        wave = self.fitsFile.wave()
         self.setImage(flux, xvals=wave)
+        self.ui.roiPlot.setLabel('bottom', text='Wavelength', units='Å')
+
+    def roiClicked(self):
+        super().roiClicked()
+        if self.ui.roiBtn.isChecked():
+            unit = self.fitsFile.summed_flux_unit()
+            self.ui.roiPlot.setLabel('left', text='Flux ({})'.format(unit))
+        else:
+            self.ui.roiPlot.showLabel('left', show=False)
