@@ -18,6 +18,10 @@ class AstroWaveFormPlotWidget(PlotWidget):
     def updateAstroDisplay(self, show):
         if show and self.fitsFile is not None:
             unit = self.fitsFile.summed_flux_unit()
-            self.setLabel('left', text='Flux ({})'.format(unit))
+            if unit:
+                text = 'Flux ({})'.format(unit)
+            else:
+                text = 'Flux'
+            self.setLabel('left', text=text)
         else:
             self.showLabel('left', show=False)
