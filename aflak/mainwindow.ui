@@ -35,7 +35,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>Open FITS</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
