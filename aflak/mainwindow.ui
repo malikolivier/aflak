@@ -30,7 +30,14 @@
     <addaction name="actionOpen"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuFITS">
+    <property name="title">
+     <string>FITS</string>
+    </property>
+    <addaction name="actionSee_FITS_header"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuFITS"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -47,6 +54,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionSee_FITS_header">
+   <property name="text">
+    <string>See FITS header</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
    </property>
   </action>
  </widget>

@@ -2,6 +2,7 @@ from pyqtgraph.Qt import QtGui, QtWidgets
 
 from .mainwindow_ui import Ui_MainWindow
 from .AstroImageView import AstroImageView
+from .FitsHeaderWindow import FitsHeaderWindow
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -13,6 +14,11 @@ class MainWindow(QtGui.QMainWindow):
 
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
+        self.ui.actionSee_FITS_header.triggered.connect(
+            self._openFitsHeaderDialog
+        )
+
+        self.dialog = None
 
     def set_fits_file(self, file_path):
         self.setWindowTitle(file_path)
@@ -25,3 +31,7 @@ class MainWindow(QtGui.QMainWindow):
         # open-file dialog
         if name != '':
             self.set_fits_file(name)
+
+    def _openFitsHeaderDialog(self):
+        self.dialog = FitsHeaderWindow(0)
+        self.dialog.show()
