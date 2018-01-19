@@ -5,6 +5,11 @@
 pep8:
 	git ls-files | grep .py$ | grep -v _ui.py$ | xargs pycodestyle
 
+UIs: aflak/mainwindow_ui.py \
+     aflak/AstroImageView_ui.py \
+     aflak/FitsHeaderWindow_ui.py \
+     aflak/FitsHeaderForm_ui.py
+
 # Generate UI source files
 aflak/mainwindow_ui.py: aflak/mainwindow.ui
 	pyuic5 $< > $@
