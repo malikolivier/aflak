@@ -20,6 +20,7 @@ class Ui_MainWindow(object):
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
         self.menuFITS = QtWidgets.QMenu(self.menubar)
+        self.menuFITS.setEnabled(False)
         self.menuFITS.setObjectName("menuFITS")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)

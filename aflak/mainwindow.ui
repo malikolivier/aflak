@@ -31,6 +31,9 @@
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuFITS">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>FITS</string>
     </property>

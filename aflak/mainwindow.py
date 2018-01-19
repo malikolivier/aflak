@@ -27,6 +27,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowTitle(file_path)
         self.fitsFile = FITS(file_path)
         self.ui.astroImageView.set_fits_file(self.fitsFile)
+        self.ui.menuFITS.setEnabled(True)
 
     def _open_file(self):
         name, _file_type = QtGui.QFileDialog.getOpenFileName(self,
