@@ -2,6 +2,7 @@ import argparse
 
 from pyqtgraph.Qt import QtGui
 
+from aflak.__init__ import __version__
 import aflak.mainwindow
 
 
@@ -9,6 +10,8 @@ def main():
     parser = argparse.ArgumentParser(description='Provide FITS file as input')
     parser.add_argument('fits', metavar='fits-file', nargs='?',
                         help='FITS file to open')
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s {}'.format(__version__))
 
     args = parser.parse_args()
 

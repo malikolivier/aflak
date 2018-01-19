@@ -13,8 +13,18 @@ def read(*names, **kwargs):
     ).read()
 
 
+def get_version():
+    f = open('aflak/__init__.py')
+    version_re = re.compile("^__version__ = '(\d.\d.\d)'$")
+    for line in f:
+        match = version_re.match(line)
+        if match:
+            return match[1]
+    raise "Version not found"
+
+
 setup(name='aflak',
-      version='0.0.3',
+      version=get_version(),
       python_requires='>=3',
       description='Advanced Framework for Learning Astrophysical Knowledge',
       long_description='%s\n%s' % (
