@@ -24,6 +24,7 @@ class Ui_FitsHeaderWindow(object):
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.lineEdit = QtWidgets.QLineEdit(FitsHeaderWindow)
+        self.lineEdit.setReadOnly(True)
         self.lineEdit.setObjectName("lineEdit")
         self.gridLayout.addWidget(self.lineEdit, 0, 1, 1, 1)
         self.tabWidget = QtWidgets.QTabWidget(FitsHeaderWindow)
