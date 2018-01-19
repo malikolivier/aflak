@@ -31,7 +31,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="fileNameField">
      <property name="readOnly">
       <bool>true</bool>
      </property>

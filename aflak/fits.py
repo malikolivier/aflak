@@ -4,6 +4,7 @@ from astropy.io import fits
 class FITS:
     def __init__(self, name, **kwargs):
         self.hdulist = fits.open(name, **kwargs)
+        self.name = name
         print('Opened file: {}'.format(name))
         print(self.hdulist.info())
 

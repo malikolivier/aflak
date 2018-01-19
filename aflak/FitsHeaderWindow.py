@@ -9,3 +9,4 @@ class FitsHeaderWindow(QtWidgets.QDialog):
         self.ui = Ui_FitsHeaderWindow()
         self.ui.setupUi(self)
         self.ui.closeButton.clicked.connect(self.close)
+        self.ui.fileNameField.setText(fitsFile.name)
