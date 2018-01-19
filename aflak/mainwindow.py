@@ -20,6 +20,8 @@ class MainWindow(QtGui.QMainWindow):
             self._openFitsHeaderDialog
         )
 
+        self.fitsFileStatusBarLabel = QtGui.QLabel()
+        self.ui.statusbar.addPermanentWidget(self.fitsFileStatusBarLabel)
         self.dialog = None
         self.fitsFile = None
 
@@ -28,6 +30,7 @@ class MainWindow(QtGui.QMainWindow):
         self.fitsFile = FITS(file_path)
         self.ui.astroImageView.set_fits_file(self.fitsFile)
         self.ui.menuFITS.setEnabled(True)
+        self.fitsFileStatusBarLabel.setText(file_path)
 
     def _open_file(self):
         name, _file_type = QtGui.QFileDialog.getOpenFileName(self,
