@@ -1,3 +1,8 @@
+New:
+
+- FITS menu from which FITS header can be seen
+
+
 v0.0.3
 ======
 
