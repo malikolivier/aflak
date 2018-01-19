@@ -12,6 +12,9 @@ aflak/mainwindow_ui.py: aflak/mainwindow.ui
 aflak/AstroImageView_ui.py: aflak/AstroImageViewTemplate.ui
 	pyuic5 $< > $@
 
+aflak/FitsHeaderWindow_ui.py: aflak/FitsHeaderWindow.ui
+	pyuic5 $< > $@
+
 # Download test samples from the MaNGA project
 data/manga-7443-12703-LINCUBE.fits:
 	wget -O $@.gz \
