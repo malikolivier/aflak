@@ -6,7 +6,6 @@ from pyqtgraph.graphicsItems.LinearRegionItem import LinearRegionItem
 from pyqtgraph.graphicsItems.ViewBox import ViewBox
 from pyqtgraph.imageview.ImageView import PlotROI
 
-import aflak.fits
 from .AstroImageView_ui import Ui_Form
 
 
@@ -116,8 +115,7 @@ class AstroImageView(pg.ImageView):
         # initialize roi plot to correct shape / visibility
         self.roiClicked()
 
-    def set_fits_file(self, file_path):
-        fitsFile = aflak.fits.FITS(file_path)
+    def set_fits_file(self, fitsFile):
         flux = fitsFile.flux()
         wave = fitsFile.wave()
         self.setImage(flux, xvals=wave)

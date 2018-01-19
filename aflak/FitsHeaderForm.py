@@ -8,3 +8,6 @@ class FitsHeaderForm(QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self, *args, **kwargs)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+
+    def setHdu(self, hdu):
+        self.ui.plainTextEdit.setPlainText(str(hdu.header))

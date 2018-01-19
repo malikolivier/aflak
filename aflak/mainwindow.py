@@ -4,6 +4,8 @@ from .mainwindow_ui import Ui_MainWindow
 from .AstroImageView import AstroImageView
 from .FitsHeaderWindow import FitsHeaderWindow
 
+from .fits import FITS
+
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -19,10 +21,12 @@ class MainWindow(QtGui.QMainWindow):
         )
 
         self.dialog = None
+        self.fitsFile = None
 
     def set_fits_file(self, file_path):
         self.setWindowTitle(file_path)
-        self.ui.astroImageView.set_fits_file(file_path)
+        self.fitsFile = FITS(file_path)
+        self.ui.astroImageView.set_fits_file(self.fitsFile)
 
     def _open_file(self):
         name, _file_type = QtGui.QFileDialog.getOpenFileName(self,
@@ -33,5 +37,5 @@ class MainWindow(QtGui.QMainWindow):
             self.set_fits_file(name)
 
     def _openFitsHeaderDialog(self):
-        self.dialog = FitsHeaderWindow(0)
+        self.dialog = FitsHeaderWindow(self.fitsFile)
         self.dialog.show()
