@@ -29,14 +29,6 @@ class Ui_FitsHeaderWindow(object):
         self.gridLayout.addWidget(self.fileNameField, 0, 1, 1, 1)
         self.tabWidget = QtWidgets.QTabWidget(FitsHeaderWindow)
         self.tabWidget.setObjectName("tabWidget")
-        self.tab = QtWidgets.QWidget()
-        self.tab.setObjectName("tab")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.tab)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.primaryTab = FitsHeaderForm(self.tab)
-        self.primaryTab.setObjectName("primaryTab")
-        self.gridLayout_2.addWidget(self.primaryTab, 0, 0, 1, 1)
-        self.tabWidget.addTab(self.tab, "")
         self.gridLayout.addWidget(self.tabWidget, 1, 0, 1, 2)
         self.closeButton = QtWidgets.QPushButton(FitsHeaderWindow)
         self.closeButton.setMaximumSize(QtCore.QSize(100, 16777215))
@@ -51,7 +43,5 @@ class Ui_FitsHeaderWindow(object):
         _translate = QtCore.QCoreApplication.translate
         FitsHeaderWindow.setWindowTitle(_translate("FitsHeaderWindow", "Dialog"))
         self.label.setText(_translate("FitsHeaderWindow", "FITS file name"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("FitsHeaderWindow", "[0] Primary"))
         self.closeButton.setText(_translate("FitsHeaderWindow", "Close"))
 
-from .FitsHeaderForm import FitsHeaderForm
