@@ -5,6 +5,7 @@ New:
 
 - FITS menu from which FITS header can be seen
 - Version flag to CLI
+- `About' dialog box in Help menu
 
 
 v0.0.3
