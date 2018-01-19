@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_FitsHeaderWindow(object):
     def setupUi(self, FitsHeaderWindow):
         FitsHeaderWindow.setObjectName("FitsHeaderWindow")
-        FitsHeaderWindow.resize(640, 480)
+        FitsHeaderWindow.resize(1350, 900)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
