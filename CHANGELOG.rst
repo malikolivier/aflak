@@ -1,6 +1,10 @@
+v0.0.4
+======
+
 New:
 
 - FITS menu from which FITS header can be seen
+- Version flag to CLI
 
 
 v0.0.3
