@@ -75,7 +75,7 @@ class Ui_AboutDialog(object):
 
     def retranslateUi(self, AboutDialog):
         _translate = QtCore.QCoreApplication.translate
-        AboutDialog.setWindowTitle(_translate("AboutDialog", "Dialog"))
+        AboutDialog.setWindowTitle(_translate("AboutDialog", "About aflak"))
         self.label_2.setText(_translate("AboutDialog", "Developed by "))
         self.aflakName.setText(_translate("AboutDialog", "Advanced Framework for Learning Astrophysical Knowledge"))
         self.label.setText(_translate("AboutDialog", "Malik Olivier Boussejra <malik@boussejra.com>"))

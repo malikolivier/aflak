@@ -41,7 +41,7 @@ class Ui_FitsHeaderWindow(object):
 
     def retranslateUi(self, FitsHeaderWindow):
         _translate = QtCore.QCoreApplication.translate
-        FitsHeaderWindow.setWindowTitle(_translate("FitsHeaderWindow", "Dialog"))
+        FitsHeaderWindow.setWindowTitle(_translate("FitsHeaderWindow", "FITS header info"))
         self.label.setText(_translate("FitsHeaderWindow", "FITS file name"))
         self.closeButton.setText(_translate("FitsHeaderWindow", "Close"))
 
