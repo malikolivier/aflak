@@ -1,6 +1,7 @@
 from pyqtgraph.Qt import QtGui, QtWidgets
 
 from .mainwindow_ui import Ui_MainWindow
+from .AboutDialog import AboutDialog
 from .AstroImageView import AstroImageView
 from .FitsHeaderWindow import FitsHeaderWindow
 
@@ -19,6 +20,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.actionSee_FITS_header.triggered.connect(
             self._openFitsHeaderDialog
         )
+        self.ui.actionAbout.triggered.connect(self._openAboutDialog)
 
         self.fitsFileStatusBarLabel = QtGui.QLabel()
         self.ui.statusbar.addPermanentWidget(self.fitsFileStatusBarLabel)
@@ -43,3 +45,6 @@ class MainWindow(QtGui.QMainWindow):
     def _openFitsHeaderDialog(self):
         self.dialog = FitsHeaderWindow(self.fitsFile)
         self.dialog.show()
+
+    def _openAboutDialog(self):
+        AboutDialog().exec_()

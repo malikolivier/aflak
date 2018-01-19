@@ -8,7 +8,8 @@ pep8:
 UIs: aflak/mainwindow_ui.py \
      aflak/AstroImageView_ui.py \
      aflak/FitsHeaderWindow_ui.py \
-     aflak/FitsHeaderForm_ui.py
+     aflak/FitsHeaderForm_ui.py \
+     aflak/AboutDialog_ui.py
 
 # Generate UI source files
 aflak/mainwindow_ui.py: aflak/mainwindow.ui
@@ -21,6 +22,9 @@ aflak/FitsHeaderWindow_ui.py: aflak/FitsHeaderWindow.ui
 	pyuic5 $< > $@
 
 aflak/FitsHeaderForm_ui.py: aflak/FitsHeaderForm.ui
+	pyuic5 $< > $@
+
+aflak/AboutDialog_ui.py: aflak/AboutDialog.ui
 	pyuic5 $< > $@
 
 # Download test samples from the MaNGA project
