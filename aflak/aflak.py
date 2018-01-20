@@ -11,7 +11,7 @@ def main():
     parser.add_argument('fits', metavar='fits-file', nargs='?',
                         help='FITS file to open')
     parser.add_argument('--version', action='version',
-                        version='%(prog)s {}'.format(__version__))
+                        version='aflak {}'.format(__version__))
 
     args = parser.parse_args()
 
