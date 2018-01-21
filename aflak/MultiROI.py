@@ -4,6 +4,8 @@ import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 
+from .functions import floodfill
+
 
 class RectROI(pg.ROI):
     def __init__(self, size, parent=None):
@@ -78,7 +80,6 @@ class EllipseROI(pg.EllipseROI):
             mask = mask.T
         shape = [(n if i in axes else 1) for i, n in enumerate(arr.shape)]
         mask = mask.reshape(shape)
-
         if returnMappedCoords:
             return arr * mask, mappedCoords * mask
         else:
@@ -89,10 +90,33 @@ class SemiAutomaticROI(pg.ROI):
     """
     Use floodfill algorithm to make the countour around a bright object.
     """
-    def __init__(self, pos, threshold=0.5, parent=None):
+    def __init__(self, pos, threshold=0.9, parent=None):
         super().__init__(pos=pos, parent=parent)
         self.threshold = threshold
 
+    def getArrayRegion(self, arr, img, axes=(0, 1), returnMappedCoords=False):
+        xStart = int(self.state['pos'][0])
+        yStart = int(self.state['pos'][1])
+        if (xStart < 0 or xStart > img.image.shape[0] or
+                yStart < 0 or yStart > img.image.shape[1]):
+            mask = np.zeros((img.image.shape[0], img.image.shape[1]),
+                            dtype=bool)
+        else:
+            startVal = img.image[xStart, yStart]
+            mask = floodfill(img.image, self.state['pos'],
+                             lambda val: val >= startVal * self.threshold)
+        if returnMappedCoords:
+            mappedCoords = set()
+            for i, line in enumerate(mask):
+                for j, _ in enumerate(line):
+                    mappedCoords.add((i, j))
+            return arr * mask, mappedCoords
+        else:
+            return arr * mask
+
+    def paint(self, p, opt, widget):
+        super().paint(p, opt, widget)
+        # TODO
 
 
 class ROIType(enum.Enum):
