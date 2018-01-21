@@ -85,10 +85,21 @@ class EllipseROI(pg.EllipseROI):
             return arr * mask
 
 
+class SemiAutomaticROI(pg.ROI):
+    """
+    Use floodfill algorithm to make the countour around a bright object.
+    """
+    def __init__(self, pos, threshold=0.5, parent=None):
+        super().__init__(pos=pos, parent=parent)
+        self.threshold = threshold
+
+
+
 class ROIType(enum.Enum):
     ELLIPSE = EllipseROI
     POLYGON = PolygonROI
     RECTANGLE = RectROI
+    SEMIAUTOMATIC = SemiAutomaticROI
 
 
 class MultiROI(QtGui.QGraphicsObject):
@@ -142,6 +153,8 @@ class MultiROI(QtGui.QGraphicsObject):
                                              closed=True, parent=self)
             elif roiType == ROIType.RECTANGLE:
                 self.currentRoi = RectROI(10, parent=self)
+            elif roiType == ROIType.SEMIAUTOMATIC:
+                self.currentRoi = SemiAutomaticROI([10, 10], parent=self)
             else:
                 raise NotImplemented('Unhandled ROIType: %s' % repr(roiType))
             self.cachedRois[roiType] = self.currentRoi
