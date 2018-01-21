@@ -12,6 +12,40 @@ class RectROI(pg.ROI):
         self.addRotateHandle([0, 0], [0.5, 0.5])
 
 
+class PolygonROI(pg.PolyLineROI):
+    def getArrayRegion(self, arr, img=None, axes=(0, 1),
+                       returnMappedCoords=False, **kwds):
+        """
+        Fix a bug in pg.PolygonROI
+        https://github.com/pyqtgraph/pyqtgraph/pull/618
+        """
+        if returnMappedCoords:
+            sliced, mappedCoords = pg.ROI.getArrayRegion(self, arr, img, axes,
+                                                         returnMappedCoords,
+                                                         fromBoundingRect=True,
+                                                         **kwds)
+        else:
+            sliced = pg.ROI.getArrayRegion(self, arr, img, axes,
+                                           returnMappedCoords,
+                                           fromBoundingRect=True, **kwds)
+
+        mask = self.renderShapeMask(sliced.shape[axes[0]],
+                                    sliced.shape[axes[1]])
+        if img.axisOrder != 'col-major':
+            mask = mask.T
+
+        # reshape mask to ensure it is applied to the correct data axes
+        shape = [1] * arr.ndim
+        shape[axes[0]] = sliced.shape[axes[0]]
+        shape[axes[1]] = sliced.shape[axes[1]]
+        mask = mask.reshape(shape)
+
+        if returnMappedCoords:
+            return sliced * mask, mappedCoords * mask
+        else:
+            return sliced * mask
+
+
 class EllipseROI(pg.EllipseROI):
     def getArrayRegion(self, arr, img=None, axes=(0, 1),
                        returnMappedCoords=False, **kwds):
@@ -53,6 +87,7 @@ class EllipseROI(pg.EllipseROI):
 
 class ROIType(enum.Enum):
     ELLIPSE = EllipseROI
+    POLYGON = PolygonROI
     RECTANGLE = RectROI
 
 
@@ -101,6 +136,10 @@ class MultiROI(QtGui.QGraphicsObject):
         else:
             if roiType == ROIType.ELLIPSE:
                 self.currentRoi = EllipseROI([10, 10], [10, 10], parent=self)
+            elif roiType == ROIType.POLYGON:
+                self.currentRoi = PolygonROI([[0, 0], [10, 10],
+                                              [10, 30], [30, 10]],
+                                             closed=True, parent=self)
             elif roiType == ROIType.RECTANGLE:
                 self.currentRoi = RectROI(10, parent=self)
             else:

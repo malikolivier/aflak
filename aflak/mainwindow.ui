@@ -51,6 +51,7 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionElliptic_ROI"/>
+    <addaction name="actionPolygonal_ROI"/>
     <addaction name="actionRectangular_ROI"/>
    </widget>
    <addaction name="menuFile"/>
@@ -102,6 +103,14 @@
    </property>
    <property name="text">
     <string>Elliptic ROI</string>
+   </property>
+  </action>
+  <action name="actionPolygonal_ROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Polygonal ROI</string>
    </property>
   </action>
  </widget>
