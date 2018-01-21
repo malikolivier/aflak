@@ -124,3 +124,8 @@ class AstroImageView(pg.ImageView):
     def roiClicked(self):
         super().roiClicked()
         self.ui.roiPlot.updateAstroDisplay(show=self.ui.roiBtn.isChecked())
+
+    def setROIType(self, roiType):
+        self.roi.setROIType(roiType)
+        if not self.ui.roiBtn.isChecked():
+            self.ui.roiBtn.click()

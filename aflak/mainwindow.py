@@ -4,6 +4,7 @@ from .mainwindow_ui import Ui_MainWindow
 from .AboutDialog import AboutDialog
 from .AstroImageView import AstroImageView
 from .FitsHeaderWindow import FitsHeaderWindow
+from .MultiROI import ROIType
 
 from .fits import FITS
 
@@ -26,6 +27,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.actionSee_FITS_header.triggered.connect(
             self._openFitsHeaderDialog
         )
+        self.roiSelectGroup.triggered.connect(self._selectROI)
         self.ui.actionAbout.triggered.connect(self._openAboutDialog)
 
         self.fitsFileStatusBarLabel = QtGui.QLabel()
@@ -51,6 +53,15 @@ class MainWindow(QtGui.QMainWindow):
     def _openFitsHeaderDialog(self):
         self.dialog = FitsHeaderWindow(self.fitsFile)
         self.dialog.show()
+
+    def _selectROI(self, selectedAction):
+        name = selectedAction.objectName()
+        if name == 'actionElliptic_ROI':
+            self.ui.astroImageView.setROIType(ROIType.ELLIPSE)
+        elif name == 'actionRectangular_ROI':
+            self.ui.astroImageView.setROIType(ROIType.RECTANGLE)
+        else:
+            raise NotImplementedError('Unknown action name: %s' % name)
 
     def _openAboutDialog(self):
         AboutDialog().exec_()
