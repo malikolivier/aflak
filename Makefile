@@ -14,6 +14,8 @@ UIs: aflak/mainwindow_ui.py \
 # Generate UI source files
 aflak/mainwindow_ui.py: aflak/mainwindow.ui
 	pyuic5 $< > $@
+	# QtDesigner does not support setText for separators. So we add it here
+	sed -i 's/\(self.menuAnalyze.addSeparator()\)/\1.setText("ROI")/' $@
 
 aflak/AstroImageView_ui.py: aflak/AstroImageViewTemplate.ui
 	pyuic5 $< > $@

@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionExit)
         self.menuFITS.addAction(self.actionSee_FITS_header)
         self.menuHelp.addAction(self.actionAbout)
-        self.menuAnalyze.addSeparator()
+        self.menuAnalyze.addSeparator().setText("ROI")
         self.menuAnalyze.addAction(self.actionElliptic_ROI)
         self.menuAnalyze.addAction(self.actionRectangular_ROI)
         self.menubar.addAction(self.menuFile.menuAction())
