@@ -72,6 +72,7 @@ class MultiROI(QtGui.QGraphicsObject):
     def __init__(self):
         super().__init__()
         self.currentRoi = None
+        self.cachedRois = {}
         self.setROIType(ROIType.RECTANGLE)
 
         # Wrap methods from *currentRoi*
@@ -95,12 +96,23 @@ class MultiROI(QtGui.QGraphicsObject):
     def setROIType(self, roiType):
         self._disconnectAll()
 
-        if roiType == ROIType.ELLIPSE:
-            self.currentRoi = EllipseROI([10, 10], [10, 10], parent=self)
-        elif roiType == ROIType.RECTANGLE:
-            self.currentRoi = RectROI(10, parent=self)
+        if roiType in self.cachedRois:
+            self.currentRoi = self.cachedRois[roiType]
         else:
-            raise NotImplemented('Unhandled ROIType: %s' % repr(roiType))
+            if roiType == ROIType.ELLIPSE:
+                self.currentRoi = EllipseROI([10, 10], [10, 10], parent=self)
+            elif roiType == ROIType.RECTANGLE:
+                self.currentRoi = RectROI(10, parent=self)
+            else:
+                raise NotImplemented('Unhandled ROIType: %s' % repr(roiType))
+            self.cachedRois[roiType] = self.currentRoi
+
+        # Hide all ROIs expect the selected type
+        for cachedRoiType, cachedRoi in self.cachedRois.items():
+            if cachedRoiType == roiType:
+                cachedRoi.show()
+            else:
+                cachedRoi.hide()
 
         self._connectAll()
         self.sigRegionChanged.emit(self)
