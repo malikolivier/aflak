@@ -4,9 +4,9 @@ from pyqtgraph.graphicsItems.ImageItem import ImageItem
 from pyqtgraph.graphicsItems.InfiniteLine import InfiniteLine
 from pyqtgraph.graphicsItems.LinearRegionItem import LinearRegionItem
 from pyqtgraph.graphicsItems.ViewBox import ViewBox
-from pyqtgraph.imageview.ImageView import PlotROI
 
 from .AstroImageView_ui import Ui_Form
+from .MultiROI import MultiROI
 
 
 class AstroImageView(pg.ImageView):
@@ -52,11 +52,11 @@ class AstroImageView(pg.ImageView):
 
         self.ui.normGroup.hide()
 
-        self.roi = PlotROI(10)
+        self.roi = MultiROI()
         self.roi.setZValue(20)
         self.view.addItem(self.roi)
         self.roi.hide()
-        self.normRoi = PlotROI(10)
+        self.normRoi = MultiROI()
         self.normRoi.setPen('y')
         self.normRoi.setZValue(20)
         self.view.addItem(self.normRoi)
