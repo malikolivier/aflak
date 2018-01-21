@@ -45,8 +45,17 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuAnalyze">
+    <property name="title">
+     <string>Analyze</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionElliptic_ROI"/>
+    <addaction name="actionRectangular_ROI"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuFITS"/>
+   <addaction name="menuAnalyze"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -77,6 +86,22 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionRectangular_ROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rectangular ROI</string>
+   </property>
+  </action>
+  <action name="actionElliptic_ROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Elliptic ROI</string>
    </property>
   </action>
  </widget>

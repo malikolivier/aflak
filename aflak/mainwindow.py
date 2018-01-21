@@ -15,6 +15,12 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.setCentralWidget(self.ui.astroImageView)
 
+        # QtDesigner does not support QActionGroup (radio button), so we handle
+        # it outside of the generated UI file
+        self.roiSelectGroup = QtWidgets.QActionGroup(self)
+        self.roiSelectGroup.addAction(self.ui.actionRectangular_ROI)
+        self.roiSelectGroup.addAction(self.ui.actionElliptic_ROI)
+
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
         self.ui.actionSee_FITS_header.triggered.connect(
