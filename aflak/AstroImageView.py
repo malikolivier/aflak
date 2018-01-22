@@ -88,6 +88,8 @@ class AstroImageView(pg.ImageView):
                    'getLevels']:
             setattr(self, fn, getattr(self.ui.histogram, fn))
 
+        self.ui.horizontalSlider.valueChanged.connect(self._sliderValueChanged)
+        self.ui.sliderValueSpinBox.valueChanged.connect(self._spinBoxChanged)
         self.timeLine.sigPositionChanged.connect(self.timeLineChanged)
         self.ui.roiBtn.clicked.connect(self.roiClicked)
         self.roi.sigRegionChanged.connect(self.roiChanged)
@@ -129,3 +131,12 @@ class AstroImageView(pg.ImageView):
         self.roi.setROIType(roiType)
         if not self.ui.roiBtn.isChecked():
             self.ui.roiBtn.click()
+
+    def _sliderValueChanged(self, value):
+        spinBoxVal = value / 100.0
+        self.ui.sliderValueSpinBox.setValue(spinBoxVal)
+        self.roi.setSliderValue(spinBoxVal)
+
+    def _spinBoxChanged(self, value):
+        self.ui.horizontalSlider.setValue(int(value * 100))
+        self.roi.setSliderValue(value)

@@ -99,6 +99,12 @@ class SemiAutomaticROI(pg.ROI):
         self.addHandle({'name': 'startNode', 'type': 't', 'pos': pos})
         self.threshold = threshold
 
+    def setThreshold(self, threshold):
+        self.threshold = threshold
+        # Emit change in ROI and force a re-paint
+        self.sigRegionChanged.emit(self)
+        self.update()
+
     def getArrayRegion(self, arr, img, axes=(0, 1), returnMappedCoords=False):
         xStart = int(self.state['pos'][0])
         yStart = int(self.state['pos'][1])
@@ -241,6 +247,10 @@ class MultiROI(QtGui.QGraphicsObject):
             self.roiChangeStartedEvent)
         self.currentRoi.sigRegionChangeFinished.connect(
             self.roiChangeFinishedEvent)
+
+    def setSliderValue(self, value):
+        if isinstance(self.currentRoi, ROIType.SEMIAUTOMATIC.value):
+            self.currentRoi.setThreshold(value)
 
     def roiChangedEvent(self):
         self.sigRegionChanged.emit(self)
