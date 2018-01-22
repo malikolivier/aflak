@@ -6,7 +6,7 @@ from pyqtgraph.graphicsItems.LinearRegionItem import LinearRegionItem
 from pyqtgraph.graphicsItems.ViewBox import ViewBox
 
 from .AstroImageView_ui import Ui_Form
-from .MultiROI import MultiROI
+from .MultiROI import MultiROI, ROIType
 
 
 class AstroImageView(pg.ImageView):
@@ -49,6 +49,8 @@ class AstroImageView(pg.ImageView):
         self.ui.histogram.setImageItem(self.imageItem)
 
         self.menu = None
+
+        self._hideSlider()
 
         self.ui.normGroup.hide()
 
@@ -125,12 +127,27 @@ class AstroImageView(pg.ImageView):
 
     def roiClicked(self):
         super().roiClicked()
+        # Bug with ROI slider not disappearing may arise!
         self.ui.roiPlot.updateAstroDisplay(show=self.ui.roiBtn.isChecked())
 
     def setROIType(self, roiType):
+        if roiType == ROIType.SEMIAUTOMATIC:
+            self._showSlider()
+        else:
+            self._hideSlider()
         self.roi.setROIType(roiType)
         if not self.ui.roiBtn.isChecked():
             self.ui.roiBtn.click()
+
+    def _hideSlider(self):
+        self.ui.horizontalSliderLabel.hide()
+        self.ui.horizontalSlider.hide()
+        self.ui.sliderValueSpinBox.hide()
+
+    def _showSlider(self):
+        self.ui.horizontalSliderLabel.show()
+        self.ui.horizontalSlider.show()
+        self.ui.sliderValueSpinBox.show()
 
     def _sliderValueChanged(self, value):
         spinBoxVal = value / 100.0
