@@ -4,7 +4,7 @@ import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 
-from .functions import floodfill
+from .functions import floodfill, getPath
 
 
 class RectROI(pg.ROI):
@@ -110,13 +110,27 @@ class SemiAutomaticROI(pg.ROI):
             for i, line in enumerate(mask):
                 for j, _ in enumerate(line):
                     mappedCoords.add((i, j))
+            self.mask = mask
             return arr * mask, mappedCoords
         else:
             return arr * mask
 
+    def boundingRect(self):
+        if not hasattr(self, 'mask'):
+            return QtCore.QRectF()
+        else:
+            rect = QtCore.QRectF(0, 0, self.mask.shape[0], self.mask.shape[1])
+            rect.translate(-self.state['pos'][0], -self.state['pos'][1])
+            return rect
+
     def paint(self, p, opt, widget):
-        super().paint(p, opt, widget)
-        # TODO
+        if not hasattr(self, 'mask'):
+            return
+        p.translate(-self.state['pos'][0], -self.state['pos'][1])
+        p.setRenderHint(QtGui.QPainter.Antialiasing)
+        p.setPen(self.currentPen)
+
+        p.drawPath(getPath(self.mask))
 
 
 class ROIType(enum.Enum):

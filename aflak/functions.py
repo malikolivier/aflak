@@ -1,5 +1,7 @@
 import numpy as np
 
+from pyqtgraph.Qt import QtGui
+
 
 def north(node):
     return (node[0], node[1] - 1)
@@ -40,3 +42,28 @@ def floodfill(img, node, predicate):
                 mask[nextNode] = True
                 queue.append(nextNode)
     return mask
+
+
+def getPath(mask):
+    path = QtGui.QPainterPath()
+    for i in range(mask.shape[0]):
+        for j in range(mask.shape[1]):
+            # Draw vertical lines
+            if i == 0 or i == mask.shape[0] - 1:  # Border first
+                if mask[i, j]:
+                    path.moveTo(i, j)
+                    path.lineTo(i, j + 1)
+            else:
+                if mask[i, j] != mask[i + 1, j]:
+                    path.moveTo(i, j)
+                    path.lineTo(i, j + 1)
+            # Draw horizontal lines
+            if j == 0 or j == mask.shape[1] - 1:  # Border first
+                if mask[i, j]:
+                    path.moveTo(i, j)
+                    path.lineTo(i + 1, j)
+            else:
+                if mask[i, j] != mask[i, j + 1]:
+                    path.moveTo(i, j)
+                    path.lineTo(i + 1, j)
+    return path
