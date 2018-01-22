@@ -32,6 +32,8 @@ class MainWindow(QtGui.QMainWindow):
                 self.ui.action_NoRecentFile.setVisible(False)
             recentFileAction = QtWidgets.QAction(self)
             recentFileAction.setText("%i | %s" % (i, path))
+            openFileFunction = self._createOpenFileFunction(path)
+            recentFileAction.triggered.connect(openFileFunction)
             self.ui.menuRecent_Files.insertAction(self.ui.actionClear_Menu,
                                                   recentFileAction)
             if i == len(recentFiles) - 1:
@@ -67,6 +69,11 @@ class MainWindow(QtGui.QMainWindow):
         # open-file dialog
         if name != '':
             self.set_fits_file(name)
+
+    def _createOpenFileFunction(self, path):
+        def openFile():
+            self.set_fits_file(path)
+        return openFile
 
     def _clearRecentFiles(self):
         Settings.clearRecentFiles()
