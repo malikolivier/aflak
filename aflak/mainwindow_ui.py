@@ -47,6 +47,9 @@ class Ui_MainWindow(object):
         self.actionPolygonal_ROI = QtWidgets.QAction(MainWindow)
         self.actionPolygonal_ROI.setCheckable(True)
         self.actionPolygonal_ROI.setObjectName("actionPolygonal_ROI")
+        self.actionSemi_automatic_ROI = QtWidgets.QAction(MainWindow)
+        self.actionSemi_automatic_ROI.setCheckable(True)
+        self.actionSemi_automatic_ROI.setObjectName("actionSemi_automatic_ROI")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionExit)
         self.menuFITS.addAction(self.actionSee_FITS_header)
@@ -55,6 +58,7 @@ class Ui_MainWindow(object):
         self.menuAnalyze.addAction(self.actionElliptic_ROI)
         self.menuAnalyze.addAction(self.actionPolygonal_ROI)
         self.menuAnalyze.addAction(self.actionRectangular_ROI)
+        self.menuAnalyze.addAction(self.actionSemi_automatic_ROI)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuFITS.menuAction())
         self.menubar.addAction(self.menuAnalyze.menuAction())
@@ -80,5 +84,6 @@ class Ui_MainWindow(object):
         self.actionRectangular_ROI.setText(_translate("MainWindow", "Rectangular ROI"))
         self.actionElliptic_ROI.setText(_translate("MainWindow", "Elliptic ROI"))
         self.actionPolygonal_ROI.setText(_translate("MainWindow", "Polygonal ROI"))
+        self.actionSemi_automatic_ROI.setText(_translate("MainWindow", "Semi-automatic ROI"))
 
 from .AstroImageView import AstroImageView

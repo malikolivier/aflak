@@ -53,6 +53,7 @@
     <addaction name="actionElliptic_ROI"/>
     <addaction name="actionPolygonal_ROI"/>
     <addaction name="actionRectangular_ROI"/>
+    <addaction name="actionSemi_automatic_ROI"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuFITS"/>
@@ -111,6 +112,14 @@
    </property>
    <property name="text">
     <string>Polygonal ROI</string>
+   </property>
+  </action>
+  <action name="actionSemi_automatic_ROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Semi-automatic ROI</string>
    </property>
   </action>
  </widget>

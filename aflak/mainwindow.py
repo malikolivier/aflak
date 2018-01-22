@@ -22,6 +22,7 @@ class MainWindow(QtGui.QMainWindow):
         self.roiSelectGroup.addAction(self.ui.actionRectangular_ROI)
         self.roiSelectGroup.addAction(self.ui.actionPolygonal_ROI)
         self.roiSelectGroup.addAction(self.ui.actionElliptic_ROI)
+        self.roiSelectGroup.addAction(self.ui.actionSemi_automatic_ROI)
 
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
@@ -63,6 +64,8 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.astroImageView.setROIType(ROIType.POLYGON)
         elif name == 'actionRectangular_ROI':
             self.ui.astroImageView.setROIType(ROIType.RECTANGLE)
+        elif name == 'actionSemi_automatic_ROI':
+            self.ui.astroImageView.setROIType(ROIType.SEMIAUTOMATIC)
         else:
             raise NotImplementedError('Unknown action name: %s' % name)
 
