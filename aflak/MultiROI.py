@@ -121,6 +121,17 @@ class SemiAutomaticROI(pg.ROI):
             return arr * mask
 
     def boundingRect(self):
+        """
+        Return the bounding rectangle of the ROI. The bounding rectangle of the
+        ROI is set as the full image (the biggest size the ROI can be) to work
+        around what seems to be PyQt painting bug.
+        It seems that objects painted outside the bounding rectangle are not
+        correctly deleted during a re-paint.
+
+        The bounding rectangle is returned via the mask of the ROI, which is
+        only computed after *getArrayRegion* with *returnMappedCoords=True* in
+        run.
+        """
         if not hasattr(self, 'mask'):
             return QtCore.QRectF()
         else:
@@ -129,6 +140,10 @@ class SemiAutomaticROI(pg.ROI):
             return rect
 
     def paint(self, p, opt, widget):
+        """
+        Paint the path of the ROI using *self.mask*. *self.mask* is only
+        computed after *getArrayRegion* with *returnMappedCoords=True* in run.
+        """
         if not hasattr(self, 'mask'):
             return
         p.translate(-self.state['pos'][0], -self.state['pos'][1])
