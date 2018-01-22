@@ -1,6 +1,6 @@
 # Generate UI files
 
-.PHONY: pep8 release install upload
+.PHONY: pep8 release install upload clean
 
 pep8:
 	git ls-files | grep .py$ | grep -v _ui.py$ | xargs pycodestyle
@@ -57,3 +57,25 @@ install: release
 # Push release to PyPI
 upload: release
 	twine upload dist/*
+
+# Generate deb files for packaging on Debian-derived systems
+all-deb: aflak-ubuntu17.10.deb aflak-ubuntu16.04.deb aflak-ubuntu14.04.deb \
+         aflak-debian-stretch.deb aflak-debian-jessie.deb
+
+aflak-ubuntu17.10.deb: release
+	./make-deb.sh ubuntu17.10
+
+aflak-ubuntu16.04.deb: release
+	./make-deb.sh ubuntu16.04
+
+aflak-ubuntu14.04.deb: release
+	./make-deb.sh ubuntu14.04
+
+aflak-debian-stretch.deb: release
+	./make-deb.sh debian-stretch
+
+aflak-debian-jessie.deb: release
+	./make-deb.sh debian-jessie
+
+clean:
+	rm -rf *.deb

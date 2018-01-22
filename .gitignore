@@ -102,3 +102,7 @@ ENV/
 
 # vi temp files
 *.swp
+
+# Files generated during creation of deb files
+dist-deb
+*.deb
