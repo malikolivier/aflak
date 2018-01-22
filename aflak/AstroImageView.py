@@ -1,3 +1,4 @@
+import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from pyqtgraph.graphicsItems.ImageItem import ImageItem
@@ -15,6 +16,7 @@ class AstroImageView(pg.ImageView):
      - Replace default HistogramLUTWidget with our AstroHistogramLUTWidget.
      - Replace PlotWidget for roiPlot (defined inside UI class) by
        AstroWaveFormPlotWidget
+     - Delete roiBtn
     """
     def __init__(self, parent=None, name="ImageView", view=None,
                  imageItem=None, *args):
@@ -54,6 +56,7 @@ class AstroImageView(pg.ImageView):
 
         self.ui.normGroup.hide()
 
+        self.roiEnabled = False
         self.roi = MultiROI()
         self.roi.setZValue(20)
         self.view.addItem(self.roi)
@@ -93,7 +96,6 @@ class AstroImageView(pg.ImageView):
         self.ui.horizontalSlider.valueChanged.connect(self._sliderValueChanged)
         self.ui.sliderValueSpinBox.valueChanged.connect(self._spinBoxChanged)
         self.timeLine.sigPositionChanged.connect(self.timeLineChanged)
-        self.ui.roiBtn.clicked.connect(self.roiClicked)
         self.roi.sigRegionChanged.connect(self.roiChanged)
 
         self.ui.menuBtn.clicked.connect(self.menuClicked)
@@ -117,7 +119,7 @@ class AstroImageView(pg.ImageView):
                              QtCore.Qt.Key_PageUp, QtCore.Qt.Key_PageDown]
 
         # initialize roi plot to correct shape / visibility
-        self.roiClicked()
+        self.setROIType(None)
 
     def set_fits_file(self, fitsFile):
         flux = fitsFile.flux()
@@ -125,19 +127,152 @@ class AstroImageView(pg.ImageView):
         self.setImage(flux, xvals=wave)
         self.ui.roiPlot.setFitsFile(fitsFile)
 
-    def roiClicked(self):
-        super().roiClicked()
-        # Bug with ROI slider not disappearing may arise!
-        self.ui.roiPlot.updateAstroDisplay(show=self.ui.roiBtn.isChecked())
+    def setImage(self, img, autoRange=True, autoLevels=True, levels=None,
+                 axes=None, xvals=None, pos=None, scale=None, transform=None,
+                 autoHistogramRange=True):
+        """
+        Reimplement setImage without using roiBtn
+        """
+        if hasattr(img, 'implements') and img.implements('MetaArray'):
+            img = img.asarray()
+
+        if not isinstance(img, np.ndarray):
+            required = ['dtype', 'max', 'min', 'ndim', 'shape', 'size']
+            if not all([hasattr(img, attr) for attr in required]):
+                raise TypeError("Image must be NumPy array or any object "
+                                "that provides compatible attributes/methods:"
+                                "\n  %s" % str(required))
+
+        self.image = img
+        self.imageDisp = None
+
+        if axes is None:
+            if self.imageItem.axisOrder == 'col-major':
+                x, y = (0, 1)
+            else:
+                x, y = (1, 0)
+
+            if img.ndim == 2:
+                self.axes = {'t': None, 'x': x, 'y': y, 'c': None}
+            elif img.ndim == 3:
+                # Ambiguous case; make a guess
+                if img.shape[2] <= 4:
+                    self.axes = {'t': None, 'x': x, 'y': y, 'c': 2}
+                else:
+                    self.axes = {'t': 0, 'x': x+1, 'y': y+1, 'c': None}
+            elif img.ndim == 4:
+                # Even more ambiguous; just assume the default
+                self.axes = {'t': 0, 'x': x+1, 'y': y+1, 'c': 3}
+            else:
+                raise Exception("Can not interpret image with dimensions %s" %
+                                str(img.shape))
+        elif isinstance(axes, dict):
+            self.axes = axes.copy()
+        elif isinstance(axes, list) or isinstance(axes, tuple):
+            self.axes = {}
+            for i in range(len(axes)):
+                self.axes[axes[i]] = i
+        else:
+            raise Exception("Can not interpret axis specification %s. "
+                            "Must be like {'t': 2, 'x': 0, 'y': 1} or "
+                            "('t', 'x', 'y', 'c')" % str(axes))
+
+        for x in ['t', 'x', 'y', 'c']:
+            self.axes[x] = self.axes.get(x, None)
+        axes = self.axes
+
+        if xvals is not None:
+            self.tVals = xvals
+        elif axes['t'] is not None:
+            if hasattr(img, 'xvals'):
+                try:
+                    self.tVals = img.xvals(axes['t'])
+                except Exception:
+                    self.tVals = np.arange(img.shape[axes['t']])
+            else:
+                self.tVals = np.arange(img.shape[axes['t']])
+
+        self.currentIndex = 0
+        self.updateImage(autoHistogramRange=autoHistogramRange)
+        if levels is None and autoLevels:
+            self.autoLevels()
+        # this does nothing since getProcessedImage sets these values again.
+        if levels is not None:
+            self.setLevels(*levels)
+
+        if self.roiEnabled:
+            self.roiChanged()
+
+        if self.axes['t'] is not None:
+            self.ui.roiPlot.setXRange(self.tVals.min(), self.tVals.max())
+            self.timeLine.setValue(0)
+            if len(self.tVals) > 1:
+                start = self.tVals.min()
+                stop = (self.tVals.max() +
+                        abs(self.tVals[-1] - self.tVals[0]) * 0.02)
+            elif len(self.tVals) == 1:
+                start = self.tVals[0] - 0.5
+                stop = self.tVals[0] + 0.5
+            else:
+                start = 0
+                stop = 1
+            for s in [self.timeLine, self.normRgn]:
+                s.setBounds([start, stop])
+
+        self.imageItem.resetTransform()
+        if scale is not None:
+            self.imageItem.scale(*scale)
+        if pos is not None:
+            self.imageItem.setPos(*pos)
+        if transform is not None:
+            self.imageItem.setTransform(transform)
+
+        if autoRange:
+            self.autoRange()
+        self._updateRoiPlot()
 
     def setROIType(self, roiType):
-        if roiType == ROIType.SEMIAUTOMATIC:
-            self._showSlider()
+        if roiType is None:
+            self.roiEnabled = False
         else:
-            self._hideSlider()
-        self.roi.setROIType(roiType)
-        if not self.ui.roiBtn.isChecked():
-            self.ui.roiBtn.click()
+            self.roiEnabled = True
+            if roiType == ROIType.SEMIAUTOMATIC:
+                self._showSlider()
+            else:
+                self._hideSlider()
+            self.roi.setROIType(roiType)
+        self._updateRoiPlot()
+
+    def _updateRoiPlot(self):
+        showRoiPlot = False
+        if self.roiEnabled:
+            showRoiPlot = True
+            self.roi.show()
+            self.ui.roiPlot.setMouseEnabled(True, True)
+            self.ui.splitter.setSizes([self.height()*0.6, self.height()*0.4])
+            self.roiCurve.show()
+            self.roiChanged()
+            self.ui.roiPlot.showAxis('left')
+        else:
+            self.roi.hide()
+            self.ui.roiPlot.setMouseEnabled(False, False)
+            self.roiCurve.hide()
+            self.ui.roiPlot.hideAxis('left')
+
+        if self.hasTimeAxis():
+            showRoiPlot = True
+            mn = self.tVals.min()
+            mx = self.tVals.max()
+            self.ui.roiPlot.setXRange(mn, mx, padding=0.01)
+            self.timeLine.show()
+            self.timeLine.setBounds([mn, mx])
+            self.ui.roiPlot.show()
+            if not self.roiEnabled:
+                self.ui.splitter.setSizes([self.height()-35, 35])
+        else:
+            self.timeLine.hide()
+
+        self.ui.roiPlot.setVisible(showRoiPlot)
 
     def _hideSlider(self):
         self.ui.horizontalSliderLabel.hide()
