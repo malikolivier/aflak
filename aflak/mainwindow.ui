@@ -31,6 +31,9 @@
      <property name="title">
       <string>Recent Files</string>
      </property>
+     <addaction name="action_NoRecentFile"/>
+     <addaction name="separator"/>
+     <addaction name="actionClear_Menu"/>
     </widget>
     <addaction name="actionOpen"/>
     <addaction name="menuRecent_Files"/>
@@ -138,6 +141,19 @@
    </property>
    <property name="text">
     <string>Disable ROI</string>
+   </property>
+  </action>
+  <action name="action_NoRecentFile">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>(None)</string>
+   </property>
+  </action>
+  <action name="actionClear_Menu">
+   <property name="text">
+    <string>Clear Menu</string>
    </property>
   </action>
  </widget>

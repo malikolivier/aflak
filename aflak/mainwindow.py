@@ -7,6 +7,7 @@ from .FitsHeaderWindow import FitsHeaderWindow
 from .MultiROI import ROIType
 
 from .fits import FITS
+from .settings import Settings
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -25,6 +26,18 @@ class MainWindow(QtGui.QMainWindow):
         self.roiSelectGroup.addAction(self.ui.actionElliptic_ROI)
         self.roiSelectGroup.addAction(self.ui.actionSemi_automatic_ROI)
 
+        recentFiles = Settings.getRecentFiles()
+        for i, path in enumerate(recentFiles):
+            if i == 0:
+                self.ui.action_NoRecentFile.setVisible(False)
+            recentFileAction = QtWidgets.QAction(self)
+            recentFileAction.setText("%i | %s" % (i, path))
+            self.ui.menuRecent_Files.insertAction(self.ui.actionClear_Menu,
+                                                  recentFileAction)
+            if i == len(recentFiles) - 1:
+                self.ui.menuRecent_Files.insertSeparator(
+                    self.ui.actionClear_Menu)
+
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
         self.ui.actionSee_FITS_header.triggered.connect(
@@ -39,6 +52,7 @@ class MainWindow(QtGui.QMainWindow):
         self.fitsFile = None
 
     def set_fits_file(self, file_path):
+        Settings.addRecentFile(file_path)
         self.setWindowTitle(file_path)
         self.fitsFile = FITS(file_path)
         self.ui.astroImageView.set_fits_file(self.fitsFile)
