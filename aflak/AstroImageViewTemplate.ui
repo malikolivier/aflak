@@ -82,6 +82,9 @@
          <property name="singleStep">
           <number>0</number>
          </property>
+         <property name="value">
+          <number>90</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -100,6 +103,9 @@
          </property>
          <property name="singleStep">
           <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>0.900000000000000</double>
          </property>
         </widget>
        </item>
