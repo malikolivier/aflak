@@ -1,4 +1,5 @@
 import datetime
+import os
 import sys
 
 from pyqtgraph.Qt import QtCore
@@ -17,10 +18,11 @@ class Settings:
         files = cls.settings.value('RecentFiles')
         if type(files) is not list:
             files = []
-        files = [f for f in files if f['path'] != filePath]
+        absolutePath = os.path.join(os.getcwd(), filePath)
+        files = [f for f in files if f['path'] != absolutePath]
         files.append({
             'time': datetime.datetime.now(),
-            'path': filePath
+            'path': absolutePath
         })
         cls.settings.setValue('RecentFiles', files)
 
