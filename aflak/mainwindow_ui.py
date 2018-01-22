@@ -50,11 +50,16 @@ class Ui_MainWindow(object):
         self.actionSemi_automatic_ROI = QtWidgets.QAction(MainWindow)
         self.actionSemi_automatic_ROI.setCheckable(True)
         self.actionSemi_automatic_ROI.setObjectName("actionSemi_automatic_ROI")
+        self.actionDisable_ROI = QtWidgets.QAction(MainWindow)
+        self.actionDisable_ROI.setCheckable(True)
+        self.actionDisable_ROI.setChecked(True)
+        self.actionDisable_ROI.setObjectName("actionDisable_ROI")
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionExit)
         self.menuFITS.addAction(self.actionSee_FITS_header)
         self.menuHelp.addAction(self.actionAbout)
         self.menuAnalyze.addSeparator().setText("ROI")
+        self.menuAnalyze.addAction(self.actionDisable_ROI)
         self.menuAnalyze.addAction(self.actionElliptic_ROI)
         self.menuAnalyze.addAction(self.actionPolygonal_ROI)
         self.menuAnalyze.addAction(self.actionRectangular_ROI)
@@ -85,5 +90,6 @@ class Ui_MainWindow(object):
         self.actionElliptic_ROI.setText(_translate("MainWindow", "Elliptic ROI"))
         self.actionPolygonal_ROI.setText(_translate("MainWindow", "Polygonal ROI"))
         self.actionSemi_automatic_ROI.setText(_translate("MainWindow", "Semi-automatic ROI"))
+        self.actionDisable_ROI.setText(_translate("MainWindow", "Disable ROI"))
 
 from .AstroImageView import AstroImageView

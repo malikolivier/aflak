@@ -50,6 +50,7 @@
      <string>Analyze</string>
     </property>
     <addaction name="separator"/>
+    <addaction name="actionDisable_ROI"/>
     <addaction name="actionElliptic_ROI"/>
     <addaction name="actionPolygonal_ROI"/>
     <addaction name="actionRectangular_ROI"/>
@@ -120,6 +121,17 @@
    </property>
    <property name="text">
     <string>Semi-automatic ROI</string>
+   </property>
+  </action>
+  <action name="actionDisable_ROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Disable ROI</string>
    </property>
   </action>
  </widget>

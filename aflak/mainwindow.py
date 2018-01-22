@@ -19,6 +19,7 @@ class MainWindow(QtGui.QMainWindow):
         # QtDesigner does not support QActionGroup (radio button), so we handle
         # it outside of the generated UI file
         self.roiSelectGroup = QtWidgets.QActionGroup(self)
+        self.roiSelectGroup.addAction(self.ui.actionDisable_ROI)
         self.roiSelectGroup.addAction(self.ui.actionRectangular_ROI)
         self.roiSelectGroup.addAction(self.ui.actionPolygonal_ROI)
         self.roiSelectGroup.addAction(self.ui.actionElliptic_ROI)
@@ -58,7 +59,9 @@ class MainWindow(QtGui.QMainWindow):
 
     def _selectROI(self, selectedAction):
         name = selectedAction.objectName()
-        if name == 'actionElliptic_ROI':
+        if name == 'actionDisable_ROI':
+            self.ui.astroImageView.setROIType(None)
+        elif name == 'actionElliptic_ROI':
             self.ui.astroImageView.setROIType(ROIType.ELLIPSE)
         elif name == 'actionPolygonal_ROI':
             self.ui.astroImageView.setROIType(ROIType.POLYGON)
