@@ -26,6 +26,7 @@ class MainWindow(QtGui.QMainWindow):
         self.roiSelectGroup.addAction(self.ui.actionElliptic_ROI)
         self.roiSelectGroup.addAction(self.ui.actionSemi_automatic_ROI)
 
+        # Populate "Recent Files" menu
         recentFiles = Settings.getRecentFiles()
         for i, path in enumerate(recentFiles):
             if i == 0:
@@ -40,6 +41,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.ui.menuRecent_Files.insertSeparator(
                     self.ui.actionClear_Menu)
 
+        # Connect actions to event handlers
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
         self.ui.actionClear_Menu.triggered.connect(self._clearRecentFiles)
