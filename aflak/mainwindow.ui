@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Aflak</string>
+   <string>aflak</string>
   </property>
   <widget class="AstroImageView" name="astroImageView"/>
   <widget class="QMenuBar" name="menubar">

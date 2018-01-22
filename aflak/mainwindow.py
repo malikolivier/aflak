@@ -58,7 +58,7 @@ class MainWindow(QtGui.QMainWindow):
 
     def set_fits_file(self, file_path):
         Settings.addRecentFile(file_path)
-        self.setWindowTitle(file_path)
+        self.setWindowTitle('aflak - %s' % file_path)
         self.fitsFile = FITS(file_path)
         self.ui.astroImageView.set_fits_file(self.fitsFile)
         self.ui.menuFITS.setEnabled(True)
