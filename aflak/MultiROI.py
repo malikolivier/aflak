@@ -212,8 +212,8 @@ class MultiROI(QtGui.QGraphicsObject):
             if roiType == ROIType.ELLIPSE:
                 self.currentRoi = EllipseROI([10, 10], [10, 10], parent=self)
             elif roiType == ROIType.POLYGON:
-                self.currentRoi = PolygonROI([[0, 0], [10, 10],
-                                              [10, 30], [30, 10]],
+                self.currentRoi = PolygonROI([[0, 0], [5, 0],
+                                              [6, 6], [0, 5]],
                                              closed=True, parent=self)
             elif roiType == ROIType.RECTANGLE:
                 self.currentRoi = RectROI(10, parent=self)
