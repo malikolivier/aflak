@@ -27,7 +27,13 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuRecent_Files">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+    </widget>
     <addaction name="actionOpen"/>
+    <addaction name="menuRecent_Files"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuFITS">
