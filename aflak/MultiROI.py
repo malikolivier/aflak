@@ -89,9 +89,14 @@ class EllipseROI(pg.EllipseROI):
 class SemiAutomaticROI(pg.ROI):
     """
     Use floodfill algorithm to make the countour around a bright object.
+
+    The whole ROI can only be moved by selecting the starting point of the
+    floodfill algorithm. This starting point is a rectangular handle as defined
+    in the *__init__* method.
     """
     def __init__(self, pos=(0, 0), threshold=0.9, parent=None):
-        super().__init__(pos=pos, parent=parent)
+        super().__init__(pos=pos, parent=parent, movable=False)
+        self.addHandle({'name': 'startNode', 'type': 't', 'pos': pos})
         self.threshold = threshold
 
     def getArrayRegion(self, arr, img, axes=(0, 1), returnMappedCoords=False):
