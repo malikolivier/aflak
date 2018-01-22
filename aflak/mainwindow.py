@@ -40,6 +40,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.ui.actionExit.triggered.connect(QtWidgets.qApp.quit)
         self.ui.actionOpen.triggered.connect(self._open_file)
+        self.ui.actionClear_Menu.triggered.connect(self._clearRecentFiles)
         self.ui.actionSee_FITS_header.triggered.connect(
             self._openFitsHeaderDialog
         )
@@ -66,6 +67,14 @@ class MainWindow(QtGui.QMainWindow):
         # open-file dialog
         if name != '':
             self.set_fits_file(name)
+
+    def _clearRecentFiles(self):
+        Settings.clearRecentFiles()
+        self.ui.action_NoRecentFile.setVisible(True)
+        for action in self.ui.menuRecent_Files.actions():
+            if (action is not self.ui.action_NoRecentFile and
+                    action is not self.ui.actionClear_Menu):
+                self.ui.menuRecent_Files.removeAction(action)
 
     def _openFitsHeaderDialog(self):
         self.dialog = FitsHeaderWindow(self.fitsFile)

@@ -40,5 +40,9 @@ class Settings:
                 print('Unexpected error on parsing RecentFiles',
                       file=sys.stderr)
                 print(e, file=sys.stderr)
-                cls.settings.setValue('RecentFiles', [])
+                cls.clearRecentFiles()
                 return []
+
+    @classmethod
+    def clearRecentFiles(cls):
+        cls.settings.setValue('RecentFiles', [])
