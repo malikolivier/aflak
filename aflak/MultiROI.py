@@ -90,7 +90,7 @@ class SemiAutomaticROI(pg.ROI):
     """
     Use floodfill algorithm to make the countour around a bright object.
     """
-    def __init__(self, pos, threshold=0.9, parent=None):
+    def __init__(self, pos=(0, 0), threshold=0.9, parent=None):
         super().__init__(pos=pos, parent=parent)
         self.threshold = threshold
 
@@ -192,7 +192,7 @@ class MultiROI(QtGui.QGraphicsObject):
             elif roiType == ROIType.RECTANGLE:
                 self.currentRoi = RectROI(10, parent=self)
             elif roiType == ROIType.SEMIAUTOMATIC:
-                self.currentRoi = SemiAutomaticROI([10, 10], parent=self)
+                self.currentRoi = SemiAutomaticROI(parent=self)
             else:
                 raise NotImplemented('Unhandled ROIType: %s' % repr(roiType))
             self.cachedRois[roiType] = self.currentRoi
