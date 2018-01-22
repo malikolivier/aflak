@@ -45,25 +45,36 @@ def floodfill(img, node, predicate):
 
 
 def getPath(mask):
+    """
+    Return the path of the countour of a boolean numpy 2d-array.
+    """
     path = QtGui.QPainterPath()
     for i in range(mask.shape[0]):
         for j in range(mask.shape[1]):
             # Draw vertical lines
-            if i == 0 or i == mask.shape[0] - 1:  # Border first
+            if i == 0:  # Border first
                 if mask[i, j]:
                     path.moveTo(i, j)
                     path.lineTo(i, j + 1)
+            elif i == mask.shape[0] - 1:
+                if mask[i, j]:
+                    path.moveTo(i + 1, j)
+                    path.lineTo(i + 1, j + 1)
             else:
                 if mask[i, j] != mask[i + 1, j]:
-                    path.moveTo(i, j)
-                    path.lineTo(i, j + 1)
+                    path.moveTo(i + 1, j)
+                    path.lineTo(i + 1, j + 1)
             # Draw horizontal lines
-            if j == 0 or j == mask.shape[1] - 1:  # Border first
+            if j == 0:  # Border first
                 if mask[i, j]:
                     path.moveTo(i, j)
                     path.lineTo(i + 1, j)
+            elif j == mask.shape[1] - 1:
+                if mask[i, j]:
+                    path.moveTo(i, j + 1)
+                    path.lineTo(i + 1, j + 1)
             else:
                 if mask[i, j] != mask[i, j + 1]:
-                    path.moveTo(i, j)
-                    path.lineTo(i + 1, j)
+                    path.moveTo(i, j + 1)
+                    path.lineTo(i + 1, j + 1)
     return path
