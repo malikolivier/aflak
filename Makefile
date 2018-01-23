@@ -57,6 +57,7 @@ install: release
 # Push release to PyPI
 upload: release
 	twine upload dist/*
+	./github-release.py
 
 # Generate deb files for packaging on Debian-derived systems
 all-deb: aflak-ubuntu17.10.deb aflak-ubuntu16.04.deb aflak-ubuntu14.04.deb \
