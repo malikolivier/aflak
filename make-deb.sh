@@ -36,6 +36,10 @@ WORK=dist-deb
 BINDIR="$WORK"/data/usr/bin
 LIBDIR="$WORK"/data/usr/lib
 PYTHONPKGDIR="$LIBDIR"/python"$PY_VERSION"/dist-packages
+SHAREDIR="$WORK"/data/usr/share
+MENUDIR="$SHAREDIR"/menu
+PIXMAPSDIR="$SHAREDIR"/pixmaps
+APPLICATIONSDIR="$SHAREDIR"/applications
 
 # Clean work dir
 rm -rf "$WORK"
@@ -47,6 +51,29 @@ cp run "$BINDIR"/aflak
 mkdir -p "$PYTHONPKGDIR"
 tar -xf dist/aflak-"$AFLAK_VERSION".tar.gz -C "$WORK"
 mv "$WORK"/aflak-"$AFLAK_VERSION"/{aflak,aflak.egg-info} "$PYTHONPKGDIR"
+
+mkdir -p "$MENUDIR"
+cat > "$MENUDIR"/aflak <<EOF
+?package(aflak):needs="X11" section="Applications/Science/Astronomy"\
+  title="aflak" longtitle="aflak - Advanced Framework for Learning Astrophysical Knowledge"\
+  description="Spectral analysis on FITS files"\
+  command="/usr/bin/aflak" icon="/usr/share/pixmaps/aflak/icon-ultra-deep-field.xpm"
+EOF
+mkdir -p "$PIXMAPSDIR"/aflak
+cp images/icon-ultra-deep-field.xpm "$PIXMAPSDIR"/aflak
+
+mkdir -p "$APPLICATIONSDIR"
+cat > "$APPLICATIONSDIR"/aflak.desktop <<EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=aflak
+GenericName=Advanced Framework for Learning Astrophysical Knowledge
+Keywords=FITS;Spectral;Spectre;
+Exec=aflak
+Icon=/usr/share/pixmaps/aflak/icon-ultra-deep-field.xpm
+Terminal=false
+EOF
 
 cd "$WORK"/data
 tar -zcf ../data.tar.gz .
