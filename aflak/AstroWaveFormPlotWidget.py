@@ -13,7 +13,12 @@ class AstroWaveFormPlotWidget(PlotWidget):
 
     def setFitsFile(self, fits):
         self.fitsFile = fits
-        self.setLabel('bottom', text='Wavelength', units='Å')
+        unit = self.fitsFile.wave_unit()
+        if unit is not None:
+            text = 'Wavelength (%s)' % unit
+        else:
+            text = 'Wavelength'
+        self.setLabel('bottom', text=text)
 
     def updateAstroDisplay(self, show):
         if show and self.fitsFile is not None:

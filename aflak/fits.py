@@ -14,6 +14,18 @@ class FITS:
     def flux(self):
         return self.hdulist['FLUX'].data
 
+    def wave_unit(self):
+        """
+        Return the unit of the waveform in a suitable format to be displayed on
+        a plot, if possible.
+        """
+        if 'CUNIT3' in self.hdulist['FLUX'].header:
+            raw_unit = self.hdulist['FLUX'].header['CUNIT3']
+            if raw_unit == 'Angstrom':
+                return 'Å'
+            else:
+                return raw_unit
+
     def flux_unit(self):
         if 'BUNIT' in self.hdulist['FLUX'].header:
             return self.hdulist['FLUX'].header['BUNIT']
