@@ -10,11 +10,22 @@ from .functions import floodfill, getPath
 class RectROI(pg.ROI):
     def __init__(self, size, parent=None):
         super().__init__(pos=[0, 0], size=size, parent=parent)
+        self.handleSize = 15
         self.addScaleHandle([1, 1], [0, 0])
         self.addRotateHandle([0, 0], [0.5, 0.5])
 
 
 class PolygonROI(pg.PolyLineROI):
+    def __init__(self, positions, closed=False, pos=None, **kwargs):
+        if pos is None:
+            pos = [0, 0]
+        self.closed = closed
+        self.segments = []
+        pg.ROI.__init__(self, pos, size=[1, 1], **kwargs)
+        self.handleSize = 10
+
+        self.setPoints(positions)
+
     def getArrayRegion(self, arr, img=None, axes=(0, 1),
                        returnMappedCoords=False, **kwds):
         """
@@ -49,6 +60,13 @@ class PolygonROI(pg.PolyLineROI):
 
 
 class EllipseROI(pg.EllipseROI):
+    def __init__(self, pos, size, **kwargs):
+        pg.ROI.__init__(self, pos, size, **kwargs)
+        self.handleSize = 10
+        self.addRotateHandle([1.0, 0.5], [0.5, 0.5])
+        self.addScaleHandle([0.5*2.**-0.5 + 0.5, 0.5*2.**-0.5 + 0.5],
+                            [0.5, 0.5])
+
     def getArrayRegion(self, arr, img=None, axes=(0, 1),
                        returnMappedCoords=False, **kwds):
         """
@@ -96,6 +114,7 @@ class SemiAutomaticROI(pg.ROI):
     """
     def __init__(self, pos=(0, 0), threshold=0.9, parent=None):
         super().__init__(pos=pos, parent=parent, movable=False)
+        self.handleSize = 10
         self.addHandle({'name': 'startNode', 'type': 't', 'pos': pos})
         self.threshold = threshold
 
