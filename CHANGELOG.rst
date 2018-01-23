@@ -1,3 +1,16 @@
+v0.0.6
+======
+
+New:
+
+- Make .deb files for easy distribution
+
+Fix:
+
+- Force use of PyQt5, even if PyQt4 happen to be installed (28cb7a0)
+- Increase size of ROI handles, making them easier to be grabbed (e533168)
+
+
 v0.0.5
 ======
 
