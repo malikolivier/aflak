@@ -1,3 +1,11 @@
+v0.0.7
+======
+
+New:
+
+- Add icon to debian release
+
+
 v0.0.6
 ======
 
