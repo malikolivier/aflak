@@ -8,7 +8,7 @@ aflak - Advanced Framework for Learning Astrophysical Knowledge
 Environment
 ===========
 
-Support Python3.
+Support Python3.5+.
 
 Install
 =======
