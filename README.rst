@@ -10,21 +10,71 @@ Environment
 
 Support Python3.
 
-Setup
-=====
+Install
+=======
 
-::
+You can install `aflak` using any of the following methods.
 
+Using pip
+---------
+
+This is the recommended way of installing aflak as a user. Please make sure
+to install `aflak` for python 3.x. It will not work on python 2.x.
+
+.. code :: bash
+
+    pip install aflak
+
+
+Depending on your python install, you should be able to run aflak form the
+command line with any of these commands
+
+.. code :: bash
+
+    aflak            # This should work in most environment
+    python -m aflak  # `python' should be the python 3.x interpreter!
+    python3 -m aflak
+
+Using .deb files
+----------------
+
+*Only `Debian Stretch` and `Ubuntu 17.10` are supported for now.*
+
+Download the .deb file of the latest release from
+https://github.com/malikolivier/aflak/releases
+
+Install it with:
+
+.. code :: bash
+
+    sudo dpkg -i aflak-X.X.X-release.deb
+    # If dependencies are missing, you should then run:
+    sudo apt-get install -f
+
+Remove it with:
+
+.. code :: bash
+
+    sudo apt-get remove aflak
+
+From source locally
+-------------------
+
+.. code :: bash
+
+    git clone https://github.com/malikolivier/aflak
+    cd aflak
     virtualenv -p python3 venv
     . ./venv/bin/activate
     pip install -r requirements.txt
+    ./run
 
 Open a FITS file
 ================
 
 ::
 
-    ./run my-fits-file.fits
+    aflak my-fits-file.fits
 
 The provided FITS file is required to have the following extensions:
 
