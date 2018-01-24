@@ -21,6 +21,7 @@ class WCSAxes:
         # By default, top and right axes are not shown
         self.plotItem.showAxis('top', True)
         self.plotItem.showAxis('right', True)
+        self.plotItem.showGrid(True, True)
 
     def setFitsFile(self, fitsFile):
         self.bottom.setFitsFile(fitsFile)
