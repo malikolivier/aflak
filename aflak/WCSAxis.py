@@ -87,6 +87,9 @@ class WCSAxis(pg.AxisItem):
             elif self.orientation == 'right':
                 string = '0' if rel_arcsec == '' else rel_arcsec
             else:
-                string = "\n%d\n%s\n%s\n" % (v - ref, abs_coords, rel_arcsec)
+                string = "%d\n%s\n%s" % (v - ref, abs_coords, rel_arcsec)
+            if self.orientation == 'bottom':
+                # Add space above to avoid overlapping of axis and labels
+                string = '\n%s\n' % string
             strings.append(string)
         return strings
