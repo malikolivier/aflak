@@ -36,7 +36,12 @@ class AstroImageView(pg.ImageView):
 
         self.wcsAxes = WCSAxes()
         if view is None:
-            self.view = pg.PlotItem(axisItems={'bottom': self.wcsAxes.bottom})
+            self.view = pg.PlotItem(axisItems={
+                'top': self.wcsAxes.top,
+                'bottom': self.wcsAxes.bottom,
+                'left': self.wcsAxes.left,
+                'right': self.wcsAxes.right
+            })
         else:
             self.view = view
         self.ui.graphicsView.setCentralItem(self.view)
