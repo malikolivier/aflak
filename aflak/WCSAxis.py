@@ -12,6 +12,15 @@ class WCSAxes:
         self.top = WCSAxis(orientation='top')
         self.left = WCSAxis(orientation='left')
         self.right = WCSAxis(orientation='right')
+        self.plotItem = pg.PlotItem(axisItems={
+            'top': self.top,
+            'bottom': self.bottom,
+            'left': self.left,
+            'right': self.right
+        })
+        # By default, top and right axes are not shown
+        self.plotItem.showAxis('top', True)
+        self.plotItem.showAxis('right', True)
 
     def setFitsFile(self, fitsFile):
         self.bottom.setFitsFile(fitsFile)
@@ -72,6 +81,12 @@ class WCSAxis(pg.AxisItem):
                 abs_coord = '%.4f %s' % (coords, unit)
                 # Cannot convert to arc second, as unit is unknown!
                 rel_arcsec = '%.2e %s' % ((coords - ref_wcs) * 3600, unit)
-            string = "\n%d\n%s\n%s\n" % (v - ref, abs_coords, rel_arcsec)
+            # For top and right axis, only show the relative value in arcsec
+            if self.orientation == 'top':
+                string = '\n%s' % ('0' if rel_arcsec == '' else rel_arcsec)
+            elif self.orientation == 'right':
+                string = '0' if rel_arcsec == '' else rel_arcsec
+            else:
+                string = "\n%d\n%s\n%s\n" % (v - ref, abs_coords, rel_arcsec)
             strings.append(string)
         return strings
