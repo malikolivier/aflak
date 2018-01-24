@@ -1,10 +1,18 @@
+import enum
+
+from astropy import wcs
 from astropy.io import fits
+
+
+class FITSUnit(enum.Enum):
+    DEGREE = enum.auto()
 
 
 class FITS:
     def __init__(self, name, **kwargs):
         self.hdulist = fits.open(name, **kwargs)
         self.name = name
+        self.wcs = wcs.WCS(self.hdulist['FLUX'].header)
         print('Opened file: {}'.format(name))
         print(self.hdulist.info())
 
@@ -34,3 +42,35 @@ class FITS:
         flux_unit = self.flux_unit()
         if flux_unit is not None:
             return flux_unit.replace("/Ang", "")
+
+    def reference_pixel(self, axis: int) -> float:
+        key = 'CRPIX{}'.format(axis)
+        if key in self.hdulist['FLUX'].header:
+            # In FITS files, indexing start from 1 (like FORTRAN)
+            return float(self.hdulist['FLUX'].header[key]) - 1
+        else:
+            raise KeyError('Unknown axis "{}". '
+                           'Key not found: "{}"'.format(axis, key))
+
+    def pixel_count(self, axis: int) -> float:
+        key = 'NAXIS{}'.format(axis)
+        if key in self.hdulist['FLUX'].header:
+            return float(self.hdulist['FLUX'].header[key])
+        else:
+            raise KeyError('Unknown axis "{}". '
+                           'Key not found: "{}"'.format(axis, key))
+
+    def convert_to_wcs(self, pixel: (float, float)) -> [float, float]:
+        return self.wcs.all_pix2world([[pixel[0], pixel[1], 1]], 1)[0, 0:2]
+
+    def unit(self, axis: int) -> FITSUnit or str:
+        key = 'CUNIT{}'.format(axis)
+        if key in self.hdulist['FLUX'].header:
+            unit = self.hdulist['FLUX'].header[key]
+            if unit == 'deg':
+                return FITSUnit.DEGREE
+            else:
+                return unit
+        else:
+            raise KeyError('Unknown axis "{}". '
+                           'Key not found: "{}"'.format(axis, key))

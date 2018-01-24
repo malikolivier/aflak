@@ -8,6 +8,7 @@ from pyqtgraph.graphicsItems.ViewBox import ViewBox
 
 from .AstroImageView_ui import Ui_Form
 from .MultiROI import MultiROI, ROIType
+from .WCSAxis import WCSAxes
 
 
 class AstroImageView(pg.ImageView):
@@ -33,8 +34,9 @@ class AstroImageView(pg.ImageView):
 
         self.ignoreTimeLine = False
 
+        self.wcsAxes = WCSAxes()
         if view is None:
-            self.view = ViewBox()
+            self.view = pg.PlotItem(axisItems={'bottom': self.wcsAxes.bottom})
         else:
             self.view = view
         self.ui.graphicsView.setCentralItem(self.view)
@@ -122,6 +124,7 @@ class AstroImageView(pg.ImageView):
         self.setROIType(None)
 
     def set_fits_file(self, fitsFile):
+        self.wcsAxes.setFitsFile(fitsFile)
         flux = fitsFile.flux()
         wave = fitsFile.wave()
         self.setImage(flux, xvals=wave)
