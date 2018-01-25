@@ -2,6 +2,7 @@ import enum
 
 from astropy import wcs
 from astropy.io import fits
+import numpy as np
 
 
 class FITSUnit(enum.Enum):
@@ -74,3 +75,23 @@ class FITS:
         else:
             raise KeyError('Unknown axis "{}". '
                            'Key not found: "{}"'.format(axis, key))
+
+    def get_north_angle(self) -> float:
+        ref1 = self.reference_pixel(1)
+        ref2 = self.reference_pixel(2)
+        ref_wcoords = self.wcs.all_pix2world([[ref1, ref2, 1]], 1)[0]
+        northern_point = self.wcs.all_world2pix([[ref_wcoords[0],
+                                                  ref_wcoords[1] + 1,
+                                                  ref_wcoords[2]]], 1)[0, 0:2]
+        northern_vector = northern_point - np.array([ref1, ref2])
+        return np.arctan2(northern_point[1], northern_point[0])
+
+    def get_east_angle(self) -> float:
+        ref1 = self.reference_pixel(1)
+        ref2 = self.reference_pixel(2)
+        ref_wcoords = self.wcs.all_pix2world([[ref1, ref2, 1]], 1)[0]
+        eastern_point = self.wcs.all_world2pix([[ref_wcoords[0] - 1,
+                                                 ref_wcoords[1],
+                                                 ref_wcoords[2]]], 1)[0, 0:2]
+        eastern_vector = eastern_point - np.array([ref1, ref2])
+        return np.arctan2(eastern_vector[1], eastern_vector[0])
