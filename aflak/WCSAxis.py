@@ -6,6 +6,33 @@ import pyqtgraph as pg
 from .fits import FITSUnit
 
 
+class Compass:
+    def __init__(self, plotItem):
+        self.northArrow = pg.ArrowItem(angle=90, tipAngle=30, baseAngle=10,
+                                       headLen=20, tailLen=20, tailWidth=4,
+                                       brush='r')
+        self.northArrow.setPos(10, 10)
+        self.northArrow.setZValue(1)
+        self.eastArrow = pg.ArrowItem(angle=0, tipAngle=30, baseAngle=10,
+                                      headLen=20, tailLen=20, tailWidth=4,
+                                      brush='b')
+        self.eastArrow.setPos(10, 10)
+        self.eastArrow.setZValue(1)
+        self.hide()
+        plotItem.addItem(self.northArrow)
+        plotItem.addItem(self.eastArrow)
+
+    def setFromFitsFile(self, fitsFile):
+        self.northArrow.setStyle(angle=fitsFile.get_north_angle())
+        self.northArrow.show()
+        self.eastArrow.setStyle(angle=fitsFile.get_east_angle())
+        self.eastArrow.show()
+
+    def hide(self):
+        self.northArrow.hide()
+        self.eastArrow.hide()
+
+
 class WCSAxes:
     def __init__(self):
         self.bottom = WCSAxis(orientation='bottom')
@@ -22,26 +49,14 @@ class WCSAxes:
         self.plotItem.showAxis('top', True)
         self.plotItem.showAxis('right', True)
         self.plotItem.showGrid(True, True)
-        self.northArrow = pg.ArrowItem(angle=90, tipAngle=30, baseAngle=10, headLen=20, tailLen=20, tailWidth=4, brush='r')
-        self.northArrow.setPos(10, 10)
-        self.northArrow.setZValue(1)
-        self.northArrow.hide()
-        self.eastArrow = pg.ArrowItem(angle=0, tipAngle=30, baseAngle=10, headLen=20, tailLen=20, tailWidth=4, brush='b')
-        self.eastArrow.setPos(10, 10)
-        self.eastArrow.setZValue(1)
-        self.eastArrow.hide()
-        self.plotItem.addItem(self.northArrow)
-        self.plotItem.addItem(self.eastArrow)
+        self.compass = Compass(self.plotItem)
 
     def setFitsFile(self, fitsFile):
         self.bottom.setFitsFile(fitsFile)
         self.top.setFitsFile(fitsFile)
         self.left.setFitsFile(fitsFile)
         self.right.setFitsFile(fitsFile)
-        self.northArrow.setStyle(angle=fitsFile.get_north_angle())
-        self.northArrow.show()
-        self.eastArrow.setStyle(angle=fitsFile.get_east_angle())
-        self.eastArrow.show()
+        self.compass.setFromFitsFile(fitsFile)
 
 
 class WCSAxis(pg.AxisItem):
