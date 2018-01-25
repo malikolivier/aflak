@@ -2,20 +2,46 @@ import sys
 
 import numpy as np
 import pyqtgraph as pg
+import pyqtgraph.functions as fn
 
 from .fits import FITSUnit
+from .functions import makeArrowPath
+
+
+class From0ArrowItem(pg.ArrowItem):
+    """
+    Extends *pg.ArrowItem* so that the arrow's origin is not on the tip, but on
+    the tail. This is necessary to make a good-looking compass.
+    """
+    def setStyle(self, **opts):
+        self.opts.update(opts)
+
+        opt = dict([(k, self.opts[k]) for k in ['headLen', 'tipAngle',
+                                                'baseAngle', 'tailLen',
+                                                'tailWidth']])
+        self.path = makeArrowPath(opt['headLen'], opt['tipAngle'],
+                                  opt['tailLen'], opt['tailWidth'])
+        self.setPath(self.path)
+
+        self.setPen(fn.mkPen(self.opts['pen']))
+        self.setBrush(fn.mkBrush(self.opts['brush']))
+
+        if self.opts['pxMode']:
+            self.setFlags(self.flags() | self.ItemIgnoresTransformations)
+        else:
+            self.setFlags(self.flags() & ~self.ItemIgnoresTransformations)
 
 
 class Compass:
     def __init__(self, plotItem):
-        self.northArrow = pg.ArrowItem(angle=90, tipAngle=30, baseAngle=10,
-                                       headLen=20, tailLen=20, tailWidth=4,
-                                       brush='r')
+        self.northArrow = From0ArrowItem(angle=90, tipAngle=30, baseAngle=10,
+                                         headLen=20, tailLen=20, tailWidth=4,
+                                         brush='r')
         self.northArrow.setPos(10, 10)
         self.northArrow.setZValue(1)
-        self.eastArrow = pg.ArrowItem(angle=0, tipAngle=30, baseAngle=10,
-                                      headLen=20, tailLen=20, tailWidth=4,
-                                      brush='b')
+        self.eastArrow = From0ArrowItem(angle=0, tipAngle=30, baseAngle=10,
+                                        headLen=20, tailLen=20, tailWidth=4,
+                                        brush='b')
         self.eastArrow.setPos(10, 10)
         self.eastArrow.setZValue(1)
         self.hide()

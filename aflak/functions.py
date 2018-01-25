@@ -78,3 +78,21 @@ def getPath(mask):
                     path.moveTo(i, j + 1)
                     path.lineTo(i + 1, j + 1)
     return path
+
+
+def makeArrowPath(headLen, tipAngle, tailLen, tailWidth):
+    """
+    Make arrow path for which origin is the extremity of the arrow's tail.
+    """
+    headWidth = headLen * np.tan(tipAngle * 0.5 * np.pi/180.)
+    path = QtGui.QPainterPath()
+    path.moveTo(0, 0)
+    path.lineTo(0, -tailWidth/2)
+    path.lineTo(-tailLen, -tailWidth/2)
+    path.lineTo(-tailLen, -tailWidth/2 - headWidth/2)
+    path.lineTo(-tailLen - headLen, 0)
+    path.lineTo(-tailLen, tailWidth/2 + headWidth/2)
+    path.lineTo(-tailLen, tailWidth/2)
+    path.lineTo(0, tailWidth/2)
+    path.lineTo(0, 0)
+    return path
