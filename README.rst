@@ -23,7 +23,8 @@ to install `aflak` for python 3.x. It will not work on python 2.x.
 
 .. code :: bash
 
-    pip install aflak
+    pip install aflak  # pip should point to python3!
+    pip3 install aflak # Use `pip3' if you are on Debian or Ubuntu
 
 
 Depending on your python install, you should be able to run aflak form the
