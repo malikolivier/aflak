@@ -6,7 +6,7 @@ import numpy as np
 
 
 class FITSUnit(enum.Enum):
-    DEGREE = enum.auto()
+    DEGREE = 1
 
 
 class FITS:
