@@ -14,3 +14,4 @@ install:
 
 script:
   - make pep8
+  - py.test
