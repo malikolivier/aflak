@@ -1,3 +1,17 @@
+v0.0.8
+======
+
+New:
+
+- Include compass showing North (red) and East (blue) directions
+- Tick labels of image axes are shown in absolute and relative equatorial
+  coordinates.
+
+Fix:
+
+- Read waveform's unit from FITS header (31fd99b)
+
+
 v0.0.7
 ======
 

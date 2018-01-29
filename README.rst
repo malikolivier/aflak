@@ -109,5 +109,3 @@ TODO
 -  Show arbitrary sums over spectral data (currently only show one frame)
 -  Benchmark / Test with several fits files
 -  Set a label on the histogram's Y-axis (flux [1E-17 erg/s/cm^2])
--  Add a compass showing North and East directions and a scale bar in the unit
-   of arcsec on the image
