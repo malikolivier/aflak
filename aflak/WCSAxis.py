@@ -116,10 +116,14 @@ class WCSAxis(pg.AxisItem):
 
     def tickSpacing(self, minVal, maxVal, size):
         original = super().tickSpacing(minVal, maxVal, size)
+        if self.fitsFile is None:
+            return original
         ref = self.fitsFile.reference_pixel(self.getAxisNumber())
         return [(spacing, offset + ref) for spacing, offset in original]
 
     def tickStrings(self, values, scale, spacing):
+        if self.fitsFile is None:
+            return super().tickStrings(values, scale, spacing)
         ref = self.fitsFile.reference_pixel(self.getAxisNumber())
         unit = self.fitsFile.unit(self.getAxisNumber())
         ref_wcs = self.toWcs(ref)
