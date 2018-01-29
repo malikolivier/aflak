@@ -19,7 +19,7 @@ def get_version():
     for line in f:
         match = version_re.match(line)
         if match:
-            return match[1]
+            return match.group(1)
     raise "Version not found"
 
 
