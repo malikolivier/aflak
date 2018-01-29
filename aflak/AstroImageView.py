@@ -1,3 +1,5 @@
+import threading
+
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
@@ -129,6 +131,12 @@ class AstroImageView(pg.ImageView):
         wave = fitsFile.wave()
         self.setImage(flux, xvals=wave)
         self.ui.roiPlot.setFitsFile(fitsFile)
+        # TODO: Autorange the image after it is drawn.
+        # This is a work around for what seems to be a bug in the
+        # *pg.ArrowItem*: When arrows are shown in the canvas, the default
+        # range of the axis becomes larger. Arrows are included from *WCSAxis*.
+        timer = threading.Timer(0.1, lambda: self.view.vb.menu.autoRange())
+        timer.start()
 
     def setImage(self, img, autoRange=True, autoLevels=True, levels=None,
                  axes=None, xvals=None, pos=None, scale=None, transform=None,
