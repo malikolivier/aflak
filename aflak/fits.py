@@ -21,7 +21,13 @@ class FITS:
         return self.hdulist['WAVE'].data
 
     def flux(self):
-        return self.hdulist['FLUX'].data
+        """
+        Get flux data with an alignment such as the north direction is pointing
+        up.
+        """
+        # Swap x/wave axes, rotate and then swap axes back
+        swapped = self.hdulist['FLUX'].data.swapaxes(0, 2)
+        return np.rot90(swapped).swapaxes(0, 2)
 
     def wave_unit(self):
         """
@@ -62,7 +68,10 @@ class FITS:
                            'Key not found: "{}"'.format(axis, key))
 
     def convert_to_wcs(self, pixel: (float, float)) -> [float, float]:
-        return self.wcs.all_pix2world([[pixel[0], pixel[1], 1]], 1)[0, 0:2]
+        x = pixel[0]
+        y_axis_len = self.hdulist['FLUX'].data.shape[2]
+        y = y_axis_len - pixel[1]
+        return self.wcs.all_pix2world([[x, y, 1]], 1)[0, 0:2]
 
     def unit(self, axis: int) -> FITSUnit or str:
         key = 'CUNIT{}'.format(axis)
