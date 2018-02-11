@@ -1,3 +1,14 @@
+v0.0.10
+=======
+
+Fix:
+
+- Image orientation (240e4cf)
+- Crash on Python 3.5 (691f08d)
+- Can also use `-v` flag to output version (50acf19)
+- Fix crash in setup.py (538cb89)
+
+
 v0.0.9
 ======
 
