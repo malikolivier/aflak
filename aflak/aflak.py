@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Provide FITS file as input')
     parser.add_argument('fits', metavar='fits-file', nargs='?',
                         help='FITS file to open')
-    parser.add_argument('--version', action='version',
+    parser.add_argument('-v', '--version', action='version',
                         version='aflak {}'.format(__version__))
 
     args = parser.parse_args()
