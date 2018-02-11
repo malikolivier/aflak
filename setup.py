@@ -15,7 +15,7 @@ def read(*names, **kwargs):
 
 def get_version():
     f = open('aflak/__init__.py')
-    version_re = re.compile("^__version__ = '(\d.\d.\d)'$")
+    version_re = re.compile("^__version__ = '(\d+\.\d+\.\d+)'$")
     for line in f:
         match = version_re.match(line)
         if match:
