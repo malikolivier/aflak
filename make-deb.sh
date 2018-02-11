@@ -30,7 +30,7 @@ case "$TARGET_DISTRO" in
 esac
 NEXT_PY_VERSION=$(echo "$PY_VERSION" | awk -F. '{print $1"."($2+1)}')
 
-AFLAK_VERSION=$(grep -o "[0-9]\.[0-9]\.[0-9]" aflak/__init__.py)
+AFLAK_VERSION=$(grep -o "[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}" aflak/__init__.py)
 
 WORK=dist-deb
 BINDIR="$WORK"/data/usr/bin
