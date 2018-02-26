@@ -1,3 +1,11 @@
+v0.0.11
+=======
+
+Change:
+
+- Delete Menu button inherited from pyqtgraph (59167a5)
+
+
 v0.0.10
 =======
 
