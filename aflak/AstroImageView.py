@@ -58,8 +58,6 @@ class AstroImageView(pg.ImageView):
 
         self._hideSlider()
 
-        self.ui.normGroup.hide()
-
         self.roiEnabled = False
         self.roi = MultiROI()
         self.roi.setZValue(20)
@@ -102,13 +100,6 @@ class AstroImageView(pg.ImageView):
         self.timeLine.sigPositionChanged.connect(self.timeLineChanged)
         self.roi.sigRegionChanged.connect(self.roiChanged)
 
-        self.ui.menuBtn.clicked.connect(self.menuClicked)
-        self.ui.normDivideRadio.clicked.connect(self.normRadioChanged)
-        self.ui.normSubtractRadio.clicked.connect(self.normRadioChanged)
-        self.ui.normOffRadio.clicked.connect(self.normRadioChanged)
-        self.ui.normROICheck.clicked.connect(self.updateNorm)
-        self.ui.normFrameCheck.clicked.connect(self.updateNorm)
-        self.ui.normTimeRangeCheck.clicked.connect(self.updateNorm)
         self.playTimer.timeout.connect(self.timeout)
 
         self.normProxy = pg.SignalProxy(self.normRgn.sigRegionChanged,
@@ -241,6 +232,15 @@ class AstroImageView(pg.ImageView):
         if autoRange:
             self.autoRange()
         self._updateRoiPlot()
+
+    # Override normalization functions to just return the image as is
+    # We do not use ImageView's normalization features (yet)
+    def normalize(self, image):
+        return image.view(np.ndarray).copy()
+
+    # Override as well
+    def updateNorm(self):
+        pass
 
     def setROIType(self, roiType):
         if roiType is None:
