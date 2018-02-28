@@ -135,12 +135,12 @@ class SemiAutomaticROI(pg.ROI):
             startVal = img.image[xStart, yStart]
             mask = floodfill(img.image, self.state['pos'],
                              lambda val: val >= startVal * self.threshold)
+        self.mask = mask
         if returnMappedCoords:
             mappedCoords = set()
             for i, line in enumerate(mask):
                 for j, _ in enumerate(line):
                     mappedCoords.add((i, j))
-            self.mask = mask
             return arr * mask, mappedCoords
         else:
             return arr * mask
@@ -167,7 +167,7 @@ class SemiAutomaticROI(pg.ROI):
     def paint(self, p, opt, widget):
         """
         Paint the path of the ROI using *self.mask*. *self.mask* is only
-        computed after *getArrayRegion* with *returnMappedCoords=True* in run.
+        computed after *getArrayRegion* in run.
         """
         if not hasattr(self, 'mask'):
             return
