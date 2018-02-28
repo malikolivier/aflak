@@ -3,6 +3,7 @@ import enum
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
+import pyqtgraph.functions as fn
 
 from .functions import floodfill, getPath
 
@@ -137,10 +138,13 @@ class SemiAutomaticROI(pg.ROI):
                              lambda val: val >= startVal * self.threshold)
         self.mask = mask
         if returnMappedCoords:
-            mappedCoords = set()
-            for i, line in enumerate(mask):
-                for j, _ in enumerate(line):
-                    mappedCoords.add((i, j))
+            shape, vectors, origin = self.getAffineSliceParams(
+                arr, img, axes, fromBoundingRect=False
+            )
+            _results, coords = fn.affineSlice(arr, shape=shape,
+                                              vectors=vectors, origin=origin,
+                                              axes=axes, returnCoords=True)
+            mappedCoords = fn.transformCoordinates(img.transform(), coords)
             return arr * mask, mappedCoords
         else:
             return arr * mask
