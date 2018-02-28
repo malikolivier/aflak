@@ -145,7 +145,7 @@ class SemiAutomaticROI(pg.ROI):
                                               vectors=vectors, origin=origin,
                                               axes=axes, returnCoords=True)
             mappedCoords = fn.transformCoordinates(img.transform(), coords)
-            return arr * mask, mappedCoords
+            return arr[:, mask], mappedCoords
         else:
             return arr * mask
 
