@@ -1,4 +1,6 @@
 import numpy as np
+cimport numpy as np
+cimport cython
 
 from pyqtgraph.Qt import QtGui
 
@@ -44,13 +46,17 @@ def floodfill(img, node, predicate):
     return mask
 
 
-def getPath(mask):
+@cython.boundscheck(False)
+def getPath(np.ndarray[np.uint8_t, cast=True, ndim=2] mask):
     """
     Return the path of the countour of a boolean numpy 2d-array.
     """
+    cdef int imax = mask.shape[0]
+    cdef int jmax = mask.shape[1]
+    cdef int i, j
     path = QtGui.QPainterPath()
-    for i in range(mask.shape[0]):
-        for j in range(mask.shape[1]):
+    for i in range(imax):
+        for j in range(jmax):
             # Draw vertical lines
             if i == 0:  # Border first
                 if mask[i, j]:
