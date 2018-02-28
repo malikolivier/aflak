@@ -36,9 +36,12 @@ cdef inline POINT_t east(POINT_t node):
     p.y = node.y
     return p
 
-# np.ndarray[dtype=np.float, ndim=2]
+cdef inline int floodfillPredicate(float val, float startVal, float threshold):
+    return val >= startVal * threshold
+
+
 @cython.boundscheck(False)
-def floodfill(img, node_, predicate):
+def floodfill(img, node_, float startVal, float threshold):
     cdef POINT_t firstNode
     firstNode.x = node_[0]
     firstNode.y = node_[1]
@@ -56,7 +59,7 @@ def floodfill(img, node_, predicate):
             if (nextNode.x < 0 or nextNode.x >= img.shape[0] or
                     nextNode.y < 0 or nextNode.y >= img.shape[1]):
                 continue
-            if (not mask[nextNode.x, nextNode.y]) and predicate(img[nextNode.x, nextNode.y]):
+            if (not mask[nextNode.x, nextNode.y]) and floodfillPredicate(img[nextNode.x, nextNode.y], startVal, threshold):
                 mask[nextNode.x, nextNode.y] = 1
                 queue.append(nextNode)
     return mask.view(dtype=np.bool)

@@ -135,7 +135,7 @@ class SemiAutomaticROI(pg.ROI):
         else:
             startVal = img.image[xStart, yStart]
             mask = floodfill(img.image, self.state['pos'],
-                             lambda val: val >= startVal * self.threshold)
+                             startVal, self.threshold)
         self.mask = mask
         if returnMappedCoords:
             shape, vectors, origin = self.getAffineSliceParams(
