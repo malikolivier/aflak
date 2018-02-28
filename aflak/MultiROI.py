@@ -54,7 +54,7 @@ class PolygonROI(pg.PolyLineROI):
         mask = mask.reshape(shape)
 
         if returnMappedCoords:
-            return sliced * mask, mappedCoords * mask
+            return sliced * mask, mappedCoords
         else:
             return sliced * mask
 
@@ -99,7 +99,7 @@ class EllipseROI(pg.EllipseROI):
         shape = [(n if i in axes else 1) for i, n in enumerate(arr.shape)]
         mask = mask.reshape(shape)
         if returnMappedCoords:
-            return arr * mask, mappedCoords * mask
+            return arr * mask, mappedCoords
         else:
             return arr * mask
 
