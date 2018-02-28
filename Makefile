@@ -29,6 +29,9 @@ aflak/FitsHeaderForm_ui.py: aflak/FitsHeaderForm.ui
 aflak/AboutDialog_ui.py: aflak/AboutDialog.ui
 	pyuic5 $< > $@
 
+cython: aflak/functions.pyx
+	python setup.py build_ext --inplace
+
 # Download test samples from the MaNGA project
 data/manga-7443-12703-LINCUBE.fits:
 	wget -O $@.gz \

@@ -3,7 +3,16 @@ import re
 from os.path import dirname
 from os.path import join
 
+from Cython.Build import cythonize
+from setuptools.extension import Extension
 from setuptools import setup
+
+extensions = [
+    Extension(
+        'aflak.functions',
+        ['aflak/functions.pyx'],
+    ),
+]
 
 
 def read(*names, **kwargs):
@@ -32,6 +41,7 @@ setup(name='aflak',
                    re.M | re.S).sub('',  read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
       ),
+      ext_modules=cythonize(extensions),
       author='Malik Olivier Boussejra',
       author_email='malik@boussejra.com',
       url='https://github.com/malikolivier/aflak',
