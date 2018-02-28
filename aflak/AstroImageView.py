@@ -242,6 +242,18 @@ class AstroImageView(pg.ImageView):
     def updateNorm(self):
         pass
 
+    def roiChanged(self):
+        if self.image is None:
+            return
+        image = self.getProcessedImage()
+        data = self.roi.getArrayRegion(image.view(np.ndarray), self.imageItem,
+                                       (1, 2))
+        if data is not None:
+            while data.ndim > 1:
+                data = data.mean(axis=1)
+            if image.ndim == 3:
+                self.roiCurve.setData(y=data, x=self.tVals)
+
     def setROIType(self, roiType):
         if roiType is None:
             self.roiEnabled = False

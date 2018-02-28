@@ -27,21 +27,14 @@ class PolygonROI(pg.PolyLineROI):
 
         self.setPoints(positions)
 
-    def getArrayRegion(self, arr, img=None, axes=(0, 1),
-                       returnMappedCoords=False, **kwds):
+    def getArrayRegion(self, arr, img=None, axes=(0, 1), **kwds):
         """
         Fix a bug in pg.PolygonROI
         https://github.com/pyqtgraph/pyqtgraph/pull/618
         """
-        if returnMappedCoords:
-            sliced, mappedCoords = pg.ROI.getArrayRegion(self, arr, img, axes,
-                                                         returnMappedCoords,
-                                                         fromBoundingRect=True,
-                                                         **kwds)
-        else:
-            sliced = pg.ROI.getArrayRegion(self, arr, img, axes,
-                                           returnMappedCoords,
-                                           fromBoundingRect=True, **kwds)
+        sliced = pg.ROI.getArrayRegion(self, arr, img, axes,
+                                       returnMappedCoords,
+                                       fromBoundingRect=True, **kwds)
 
         mask = self.renderShapeMask(sliced.shape[axes[0]],
                                     sliced.shape[axes[1]])
@@ -54,10 +47,7 @@ class PolygonROI(pg.PolyLineROI):
         shape[axes[1]] = sliced.shape[axes[1]]
         mask = mask.reshape(shape)
 
-        if returnMappedCoords:
-            return sliced * mask, mappedCoords
-        else:
-            return sliced * mask
+        return sliced * mask
 
 
 class EllipseROI(pg.EllipseROI):
@@ -68,24 +58,14 @@ class EllipseROI(pg.EllipseROI):
         self.addScaleHandle([0.5*2.**-0.5 + 0.5, 0.5*2.**-0.5 + 0.5],
                             [0.5, 0.5])
 
-    def getArrayRegion(self, arr, img=None, axes=(0, 1),
-                       returnMappedCoords=False, **kwds):
+    def getArrayRegion(self, arr, img=None, axes=(0, 1), **kwds):
         """
         Fix a bug in pg.EllipseROI
         https://github.com/pyqtgraph/pyqtgraph/pull/618
         """
-        if returnMappedCoords:
-            arr, mappedCoords = pg.ROI.getArrayRegion(self, arr, img, axes,
-                                                      returnMappedCoords,
-                                                      **kwds)
-        else:
-            arr = pg.ROI.getArrayRegion(self, arr, img, axes,
-                                        returnMappedCoords, **kwds)
+        arr = pg.ROI.getArrayRegion(self, arr, img, axes, **kwds)
         if arr is None or arr.shape[axes[0]] == 0 or arr.shape[axes[1]] == 0:
-            if returnMappedCoords:
-                return arr, mappedCoords
-            else:
-                return arr
+            return arr
         w = arr.shape[axes[0]]
         h = arr.shape[axes[1]]
 
@@ -99,10 +79,7 @@ class EllipseROI(pg.EllipseROI):
             mask = mask.T
         shape = [(n if i in axes else 1) for i, n in enumerate(arr.shape)]
         mask = mask.reshape(shape)
-        if returnMappedCoords:
-            return arr * mask, mappedCoords
-        else:
-            return arr * mask
+        return arr * mask
 
 
 class SemiAutomaticROI(pg.ROI):
@@ -125,7 +102,7 @@ class SemiAutomaticROI(pg.ROI):
         self.sigRegionChanged.emit(self)
         self.update()
 
-    def getArrayRegion(self, arr, img, axes=(0, 1), returnMappedCoords=False):
+    def getArrayRegion(self, arr, img, axes=(0, 1)):
         xStart = int(self.state['pos'][0])
         yStart = int(self.state['pos'][1])
         if (xStart < 0 or xStart > img.image.shape[0] or
@@ -137,17 +114,7 @@ class SemiAutomaticROI(pg.ROI):
             mask = floodfill(img.image, self.state['pos'],
                              startVal, self.threshold)
         self.mask = mask
-        if returnMappedCoords:
-            shape, vectors, origin = self.getAffineSliceParams(
-                arr, img, axes, fromBoundingRect=False
-            )
-            _results, coords = fn.affineSlice(arr, shape=shape,
-                                              vectors=vectors, origin=origin,
-                                              axes=axes, returnCoords=True)
-            mappedCoords = fn.transformCoordinates(img.transform(), coords)
-            return arr[:, mask], mappedCoords
-        else:
-            return arr * mask
+        return arr[:, mask]
 
     def boundingRect(self):
         """
