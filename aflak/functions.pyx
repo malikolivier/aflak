@@ -5,31 +5,47 @@ cimport cython
 from pyqtgraph.Qt import QtGui
 
 
-def north(node):
-    return (node[0], node[1] - 1)
+ctypedef struct POINT_t:
+    int x
+    int y
+
+cdef inline POINT_t north(POINT_t node):
+    cdef POINT_t p
+    p.x = node.x
+    p.y = node.y - 1
+    return p
 
 
-def south(node):
-    return (node[0], node[1] + 1)
+cdef inline POINT_t south(POINT_t node):
+    cdef POINT_t p
+    p.x = node.x
+    p.y = node.y + 1
+    return p
 
 
-def west(node):
-    return (node[0] - 1, node[1])
+cdef inline POINT_t west(POINT_t node):
+    cdef POINT_t p
+    p.x = node.x - 1
+    p.y = node.y
+    return p
 
 
-def east(node):
-    return (node[0] + 1, node[1])
+cdef inline POINT_t east(POINT_t node):
+    cdef POINT_t p
+    p.x = node.x + 1
+    p.y = node.y
+    return p
 
-
-def toIntTuple(arraylike):
-    return int(arraylike[0]), int(arraylike[1])
-
-
-def floodfill(img, node, predicate):
-    firstNode = toIntTuple(node)
-    mask = np.zeros(img.shape, dtype=bool)
-    mask[firstNode] = True
-    queue = [firstNode]
+# np.ndarray[dtype=np.float, ndim=2]
+@cython.boundscheck(False)
+def floodfill(img, node_, predicate):
+    cdef POINT_t firstNode
+    firstNode.x = node_[0]
+    firstNode.y = node_[1]
+    cdef np.ndarray[dtype=np.int8_t, ndim=2] mask = np.zeros((img.shape[0], img.shape[1]), dtype=np.int8)
+    mask[firstNode.x, firstNode.y] = 1
+    cdef list queue = [firstNode]
+    cdef POINT_t node, N, S, W, E, nextNode
     while len(queue) > 0:
         node = queue.pop()
         N = north(node)
@@ -37,13 +53,13 @@ def floodfill(img, node, predicate):
         W = west(node)
         E = east(node)
         for nextNode in [N, S, W, E]:
-            if (nextNode[0] < 0 or nextNode[0] >= img.shape[0] or
-                    nextNode[1] < 0 or nextNode[1] >= img.shape[1]):
+            if (nextNode.x < 0 or nextNode.x >= img.shape[0] or
+                    nextNode.y < 0 or nextNode.y >= img.shape[1]):
                 continue
-            if (not mask[nextNode]) and predicate(img[nextNode]):
-                mask[nextNode] = True
+            if (not mask[nextNode.x, nextNode.y]) and predicate(img[nextNode.x, nextNode.y]):
+                mask[nextNode.x, nextNode.y] = 1
                 queue.append(nextNode)
-    return mask
+    return mask.view(dtype=np.bool)
 
 
 @cython.boundscheck(False)
