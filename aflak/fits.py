@@ -18,6 +18,42 @@ UNITS_ON_PLOT = {
 }
 
 
+def get_wave_unit(hdu):
+    for key in ['CUNIT3', 'CTYPE3']:
+        if key in hdu.header:
+            raw_unit = hdu.header[key]
+            return UNITS_ON_PLOT.get(raw_unit, raw_unit)
+
+
+def get_reference_pixels(hdu):
+    pixels = {}
+    for axis in range(1, hdu.header['NAXIS'] + 1):
+        key = 'CRPIX{}'.format(axis)
+        # In FITS files, indexing start from 1 (like FORTRAN)
+        pixels[axis] = float(hdu.header[key]) - 1
+    return pixels
+
+
+def get_pixel_count(hdu):
+    pixel_count = {}
+    for axis in range(1, hdu.header['NAXIS'] + 1):
+        key = 'NAXIS{}'.format(axis)
+        pixel_count[axis] = float(hdu.header[key])
+    return pixel_count
+
+
+def get_units(hdu):
+    units = {}
+    for axis in range(1, hdu.header['NAXIS'] + 1):
+        key = 'CUNIT{}'.format(axis)
+        for key in ['CUNIT{}'.format(axis), 'CTYPE{}'.format(axis)]:
+            if key in hdu.header:
+                raw_unit = hdu.header[key]
+                units[axis] = STR_UNITS_TO_FITSUNITS.get(raw_unit, raw_unit)
+                break
+    return units
+
+
 def generate_fits_props(hdulist):
     """
     1. Find FLUX/WAVE hdu if they exist. Then get relevant data for each HDU.
@@ -54,55 +90,39 @@ def generate_fits_props(hdulist):
         # Set 'wave_data'
         props['wave_data'] = wave_hdu.data
         # Set 'flux_unit'
-        if 'BUNIT' in flux_hdu.header:
-            props['flux_unit'] = flux_hdu.header['BUNIT']
-        else:
-            props['flux_unit'] = None
+        props['flux_unit'] = flux_hdu.header.get('BUNIT')
         # Set 'wave_unit'
         # Return the unit of the waveform in a suitable format to be displayed
         # on a plot, if possible.
-        if 'CUNIT3' in flux_hdu.header:
-            raw_unit = flux_hdu.header['CUNIT3']
-            if raw_unit in UNITS_ON_PLOT:
-                props['wave_unit'] = UNITS_ON_PLOT[raw_unit]
-            else:
-                props['wave_unit'] = raw_unit
+        props['wave_unit'] = get_wave_unit(flux_hdu)
         # Set 'reference_pixels'
-        pixels = {}
-        for axis in range(1, flux_hdu.header['NAXIS'] + 1):
-            key = 'CRPIX{}'.format(axis)
-            # In FITS files, indexing start from 1 (like FORTRAN)
-            pixels[axis] = float(flux_hdu.header[key]) - 1
-        props['reference_pixels'] = pixels
+        props['reference_pixels'] = get_reference_pixels(flux_hdu)
         # Set 'pixel_count'
-        pixel_count = {}
-        for axis in range(1, flux_hdu.header['NAXIS'] + 1):
-            key = 'NAXIS{}'.format(axis)
-            pixel_count[axis] = float(flux_hdu.header[key])
-        props['pixel_count'] = pixel_count
+        props['pixel_count'] = get_pixel_count(flux_hdu)
         # Set 'units'
-        units = {}
-        for axis in range(1, flux_hdu.header['NAXIS'] + 1):
-            key = 'CUNIT{}'.format(axis)
-            raw_unit = flux_hdu.header[key]
-            if raw_unit in STR_UNITS_TO_FITSUNITS:
-                units[axis] = STR_UNITS_TO_FITSUNITS[raw_unit]
-            else:
-                units[axis] = raw_unit
-        props['units'] = units
+        props['units'] = get_units(flux_hdu)
         # Set 'wcs'
         props['wcs'] = wcs.WCS(flux_hdu.header)
     else:
         primary_hdu = hdulist[0]
-        props['flux_data'] = primary_hdu.data
-        props['wave_data'] = np.array(range(primary_hdu.data.shape[2]))
-        # TODO
-        props['flux_unit'] = ""
-        props['wave_unit'] = ""
-        props['reference_pixels'] = { 1: 0, 2: 0, 3: 0}
-        props['pixel_count'] = { 1: 2071, 2: 303, 3: 709}
-        props['units'] = { 1: "", 2: "", 3: ""}
-        props['wcs'] = wcs.WCS(primary_hdu.header)
+        w = wcs.WCS(primary_hdu.header)
+        swapped = primary_hdu.data.swapaxes(0, 2)
+        flux = np.rot90(swapped).swapaxes(0, 2)
+        # flux may contain a lot of negative garbage data. Remove them all
+        flux[flux <= 0] = np.nan
+        props['flux_data'] = flux
+        # Set 'wave_data'
+        pix_coords = np.array(
+            [[0, 0, i] for i in range(primary_hdu.data.shape[0])],
+            np.float
+        )
+        props['wave_data'] = w.all_pix2world(pix_coords, 0)[:, 2]
+        props['flux_unit'] = primary_hdu.header.get('BUNIT')
+        props['wave_unit'] = get_wave_unit(primary_hdu)
+        props['reference_pixels'] = get_reference_pixels(primary_hdu)
+        props['pixel_count'] = get_pixel_count(primary_hdu)
+        props['units'] = get_units(primary_hdu)
+        props['wcs'] = w
     return props
 
 
