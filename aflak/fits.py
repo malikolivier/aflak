@@ -19,22 +19,28 @@ UNITS_ON_PLOT = {
 
 
 def generate_fits_props(hdulist):
-    # props = {
-    #     'flux_data': None,
-    #     'wave_data': None,
-    #     'flux_unit': None,
-    #     'wave_unit': None,
-    #     'reference_pixels': {
-    #         0: None, # CRPIX_:
-    #     },
-    #     'pixel_count': {
-    #         0: None, # NAXIS_:
-    #     }
-    #     'units': {
-    #         0: None, # CUNIT_:
-    #     },
-    #     'wcs': None,
-    # }
+    """
+    1. Find FLUX/WAVE hdu if they exist. Then get relevant data for each HDU.
+    2. Fallback: If they do not exist, try to get relevant data from primary
+       HDU.
+
+       props = {
+           'flux_data': None,
+           'wave_data': None,
+           'flux_unit': None,
+           'wave_unit': None,
+           'reference_pixels': {
+               0: None, # CRPIX_:
+           },
+           'pixel_count': {
+               0: None, # NAXIS_:
+           }
+           'units': {
+               0: None, # CUNIT_:
+           },
+           'wcs': None,
+       }
+    """
     props = {}
     if 'FLUX' in hdulist and 'WAVE' in hdulist:
         flux_hdu = hdulist['FLUX']
@@ -86,6 +92,17 @@ def generate_fits_props(hdulist):
         props['units'] = units
         # Set 'wcs'
         props['wcs'] = wcs.WCS(flux_hdu.header)
+    else:
+        primary_hdu = hdulist[0]
+        props['flux_data'] = primary_hdu.data
+        props['wave_data'] = np.array(range(primary_hdu.data.shape[2]))
+        # TODO
+        props['flux_unit'] = ""
+        props['wave_unit'] = ""
+        props['reference_pixels'] = { 1: 0, 2: 0, 3: 0}
+        props['pixel_count'] = { 1: 2071, 2: 303, 3: 709}
+        props['units'] = { 1: "", 2: "", 3: ""}
+        props['wcs'] = wcs.WCS(primary_hdu.header)
     return props
 
 
