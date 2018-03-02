@@ -138,7 +138,7 @@ class WCSAxis(pg.AxisItem):
                 else:
                     rel_arcsec = "%.2e''" % rel_arcsec
             else:
-                abs_coord = '%.4f %s' % (coords, unit)
+                abs_coords = '%.4f %s' % (coords, unit)
                 # Cannot convert to arc second, as unit is unknown!
                 rel_arcsec = '%.2e %s' % ((coords - ref_wcs) * 3600, unit)
             # For top and right axis, only show the relative value in arcsec
