@@ -4,6 +4,7 @@ from os.path import dirname
 from os.path import join
 
 from Cython.Build import cythonize
+import numpy
 from setuptools.extension import Extension
 from setuptools import setup
 
@@ -41,7 +42,7 @@ setup(name='aflak',
                    re.M | re.S).sub('',  read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
       ),
-      ext_modules=cythonize(extensions),
+      ext_modules=cythonize(extensions, include_path=[numpy.get_include()]),
       author='Malik Olivier Boussejra',
       author_email='malik@boussejra.com',
       url='https://github.com/malikolivier/aflak',
