@@ -10,15 +10,25 @@ class FITSUnit(enum.Enum):
 
 
 class FITS:
+    @property
+    def flux_hdu(self):
+        if 'FLUX' in self.hdulist:
+            return self.hdulist['FLUX']
+
+    @property
+    def wave_hdu(self):
+        if 'WAVE' in self.hdulist:
+            return self.hdulist['WAVE']
+
     def __init__(self, name, **kwargs):
         self.hdulist = fits.open(name, **kwargs)
         self.name = name
-        self.wcs = wcs.WCS(self.hdulist['FLUX'].header)
+        self.wcs = wcs.WCS(self.flux_hdu.header)
         print('Opened file: {}'.format(name))
         print(self.hdulist.info())
 
     def wave(self):
-        return self.hdulist['WAVE'].data
+        return self.wave_hdu.data
 
     def flux(self):
         """
@@ -26,7 +36,7 @@ class FITS:
         up.
         """
         # Swap x/wave axes, rotate and then swap axes back
-        swapped = self.hdulist['FLUX'].data.swapaxes(0, 2)
+        swapped = self.flux_hdu.data.swapaxes(0, 2)
         return np.rot90(swapped).swapaxes(0, 2)
 
     def wave_unit(self):
@@ -34,16 +44,16 @@ class FITS:
         Return the unit of the waveform in a suitable format to be displayed on
         a plot, if possible.
         """
-        if 'CUNIT3' in self.hdulist['FLUX'].header:
-            raw_unit = self.hdulist['FLUX'].header['CUNIT3']
+        if 'CUNIT3' in self.flux_hdu.header:
+            raw_unit = self.flux_hdu.header['CUNIT3']
             if raw_unit == 'Angstrom':
                 return 'Å'
             else:
                 return raw_unit
 
     def flux_unit(self):
-        if 'BUNIT' in self.hdulist['FLUX'].header:
-            return self.hdulist['FLUX'].header['BUNIT']
+        if 'BUNIT' in self.flux_hdu.header:
+            return self.flux_hdu.header['BUNIT']
 
     def summed_flux_unit(self):
         flux_unit = self.flux_unit()
@@ -52,31 +62,31 @@ class FITS:
 
     def reference_pixel(self, axis: int) -> float:
         key = 'CRPIX{}'.format(axis)
-        if key in self.hdulist['FLUX'].header:
+        if key in self.flux_hdu.header:
             # In FITS files, indexing start from 1 (like FORTRAN)
-            return float(self.hdulist['FLUX'].header[key]) - 1
+            return float(self.flux_hdu.header[key]) - 1
         else:
             raise KeyError('Unknown axis "{}". '
                            'Key not found: "{}"'.format(axis, key))
 
     def pixel_count(self, axis: int) -> float:
         key = 'NAXIS{}'.format(axis)
-        if key in self.hdulist['FLUX'].header:
-            return float(self.hdulist['FLUX'].header[key])
+        if key in self.flux_hdu.header:
+            return float(self.flux_hdu.header[key])
         else:
             raise KeyError('Unknown axis "{}". '
                            'Key not found: "{}"'.format(axis, key))
 
     def convert_to_wcs(self, pixel: (float, float)) -> [float, float]:
         x = pixel[0]
-        y_axis_len = self.hdulist['FLUX'].data.shape[2]
+        y_axis_len = self.flux_hdu.data.shape[2]
         y = y_axis_len - pixel[1]
         return self.wcs.all_pix2world([[x, y, 1]], 1)[0, 0:2]
 
     def unit(self, axis: int) -> FITSUnit or str:
         key = 'CUNIT{}'.format(axis)
-        if key in self.hdulist['FLUX'].header:
-            unit = self.hdulist['FLUX'].header[key]
+        if key in self.flux_hdu.header:
+            unit = self.flux_hdu.header[key]
             if unit == 'deg':
                 return FITSUnit.DEGREE
             else:
