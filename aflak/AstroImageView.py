@@ -207,7 +207,7 @@ class AstroImageView(pg.ImageView):
 
         if self.axes['t'] is not None:
             self.ui.roiPlot.setXRange(self.tVals.min(), self.tVals.max())
-            self.timeLine.setValue(0)
+            self.timeLine.setValue(self.tVals.min())
             if len(self.tVals) > 1:
                 start = self.tVals.min()
                 stop = (self.tVals.max() +
