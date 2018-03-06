@@ -109,7 +109,7 @@ def generate_fits_props(hdulist):
         swapped = primary_hdu.data.swapaxes(0, 2)
         flux = np.rot90(swapped).swapaxes(0, 2)
         # flux may contain a lot of negative garbage data. Remove them all
-        flux[flux <= 0] = np.nan
+        flux[flux <= -100] = np.nan
         props['flux_data'] = flux
         # Set 'wave_data'
         pix_coords = np.array(
