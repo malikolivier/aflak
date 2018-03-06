@@ -61,7 +61,7 @@ Aflak will attempt to decide that kind of FITS file open as follows:
 applications in solar physics.
 
 
-1.1.3. Display features
+1.1.3. Basic display features
 
 Aflak interface shall look as follows:
 
@@ -91,11 +91,30 @@ Footer: Shall contain the name of the currently open file, as well as the
 Vertical line: Used to control which frame is displayed. Can be moved with
                keyboard or mouse. Vertical line can be duplicated. In such a
                case, the sum of all images in the interval between the two
-               lines will be shown.
+               lines will be shown. Can be hidden.
 
 A*: Color LUT can be changed with right-click of the mouse. Min and max
     threshold can be set with the left-click of the mouse.
 
+1.1.4. Additional hideable dockable components
+
+These components can be toggled.
+
+Components to concurrently show several subplanes of the image shall be
+implemented. These components are as follows:
+- X-Z plane shown as a frame with Y as a moving parameter, aligned on the top
+  of the main 2D image, or as a separate window.
+- Y-Z plane shown as a frame with X as a moving parameter, aligned on the right
+  of the main 2D image, or as a separate window.
+
+Each of images in the displayed components shall share the same LUT.
+By clicking on any point in any image, the user can select which area is drawn
+on the other figures, i.e. concretely, if the user clicks on a point (x0, y0)
+of the X-Y figure, the X parameter of the Y-Z's figure will be set to x0, while
+the Y parameter of the X-Z figure will be set to y0.
+
+The `cut' area thus selected shall be indicated, respectively, by a vertical
+rule for the horizontal axis, and a horizontal rule for the vectical axis.
 
 1.2. Analysis support
 
@@ -160,10 +179,6 @@ scaling, smoothing, base-line computing, etc. A specific list shall be made.
 
 /* TODO for astronomers: Expand this section                                 */
 
-A feature to concurrently show several subplanes of the image shall be
-implemented. The following must be included:
-- X-Z plane shown as a frame with Y moving
-- Y-Z plane shown as a frame with X moving
 
 1.3. Export analysis results
 
