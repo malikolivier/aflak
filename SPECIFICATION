@@ -127,6 +127,9 @@ language shall be required.
 A transformation implemented using the visual programming environment shall
 have its result included in the visualization pipeline and immediately visible
 to the end user, thus creating a feedback loop.
+The output shall be displayed in the image area, replaing the previous image.
+The visual programming environment shall have its own independent window,
+dockable to the main UI.
 
 A script exported from this visual programming environment shall be sufficient
 to reproduce the history of the analysis given than the original raw data is
