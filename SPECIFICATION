@@ -105,10 +105,15 @@ selections, filters and sections.
 Contrary to the state-of-the-art, no direct knowledge nor use of a scripting
 language shall be required.
 
+A transformation implemented using the visual programming environment shall
+have its result included in the visualization pipeline and immediately visible
+to the end user, thus creating a feedback loop.
+
 A script exported from this visual programming environment shall be sufficient
 to reproduce the history of the analysis given than the original raw data is
 provided. Seeing a screenshot of the visual environment shall be sufficient for
 an astronomer to understand the important steps of the analysis.
+
 
 1.2.1. Selections (ROI)
 
