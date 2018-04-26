@@ -136,6 +136,9 @@ to reproduce the history of the analysis given than the original raw data is
 provided. Seeing a screenshot of the visual environment shall be sufficient for
 an astronomer to understand the important steps of the analysis.
 
+Allow to open/close several FITS files (concurrently).
+Can do operations on FITS files.
+Set output as a file, or as a screen.
 
 1.2.1. Selections (ROI)
 
