@@ -5,7 +5,7 @@ aflak - Advanced Framework for Learning Astrophysical Knowledge
 .. figure:: https://api.travis-ci.org/malikolivier/aflak.svg?branch=master
    :alt: Build status
 
-**IN ACTIVE DEVELOPMENT: Features and API highly unstable!**
+**Project moved and currently undergoing a complete rewrite at https://github.com/aflak-vis/aflak**
 
 Environment
 ===========
